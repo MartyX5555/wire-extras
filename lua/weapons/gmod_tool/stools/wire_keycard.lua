@@ -191,9 +191,9 @@ if (SERVER) then
 
 	end
 
-        // TODO: Examine this. Keycards need to be Duplicator compatible.
-	// duplicator.RegisterEntityClass("gmod_wire_keycardspawner", MakeWireKeycardSpawner, "Ang", "Pos", "z_only", "nocollide", "Vel", "aVel", "frozen")
-	// duplicator.RegisterEntityClass("gmod_wire_keycardreader", MakeWireKeycardReader, "Ang", "Pos", "z_only", "nocollide", "Vel", "aVel", "frozen")
+    // TODO: Examine this. Keycards need to be Duplicator compatible.
+	duplicator.RegisterEntityClass("gmod_wire_keycardspawner", MakeWireKeycardSpawner, "Ang", "Pos", "z_only", "nocollide", "Vel", "aVel", "frozen")
+	duplicator.RegisterEntityClass("gmod_wire_keycardreader", MakeWireKeycardReader, "Ang", "Pos", "z_only", "nocollide", "Vel", "aVel", "frozen")
 
 end
 
@@ -238,7 +238,8 @@ end
 function TOOL.BuildCPanel(panel)
 	panel:AddControl("Header", { Text = "#Tool.wire_keycard.name", Description = "#Tool.wire_keycard.desc" })
 	panel:AddControl("Header", { Text = "#WireKeycardTool_GeneralOpt" } )
-	panel:AddControl("Slider", { Label = "#WireKeycardTool_LockCode", Description = "", Type = "Integer", Min = "0", Max = "99", Command = "wire_keycardtool_lockcode"})
+	panel:AddControl("Slider", { Label = "#WireKeycardTool_LockCode",
+ Description = "", Type = "Integer", Min = "0", Max = "99", Command = "wire_keycardtool_lockcode"})
 	panel:AddControl("Header", { Text = "#WireKeycardTool_ReaderOpt" } )
 
         local combobox = {}
@@ -257,5 +258,6 @@ function TOOL.BuildCPanel(panel)
         combobox.Options["Exclusive (ignore if lock code is different)"] = {wire_keycardtool_lcmode = 1}
         panel:AddControl("ComboBox", combobox)
 
-	panel:AddControl("Slider", { Label = "#WireKeycardTool_BeamLength", Description = "", Type = "Float", Min = "1", Max = "1000", Command = "wire_keycardtool_beamlength"})
+	panel:AddControl("Slider", { Label = "#WireKeycardTool_BeamLength",
+ Description = "", Type = "Float", Min = "1", Max = "1000", Command = "wire_keycardtool_beamlength"})
 end

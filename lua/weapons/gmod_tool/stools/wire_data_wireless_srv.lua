@@ -30,7 +30,7 @@ function TOOL:LeftClick( trace )
 
 	local ply = self:GetOwner()
 
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_data_Wireless_srv" && trace.Entity:GetTable().pl == ply ) then
+	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_wireless_srv" && trace.Entity:GetTable().pl == ply ) then
 		return true
 	end
 
@@ -72,7 +72,7 @@ if (SERVER) then
 	function MakeWirebtsrv( pl, Pos, Ang, Model )
 		if ( !pl:CheckLimit( "wire_data_Wireless_srv" ) ) then return false end
 	
-		local wire_data_Wireless_srv = ents.Create( "gmod_wire_Wireless_srv" )
+		local wire_data_Wireless_srv = ents.Create( "gmod_wire_wireless_srv" )
 		if (!wire_data_Wireless_srv:IsValid()) then return false end
 
 		wire_data_Wireless_srv:SetAngles( Ang )
@@ -88,7 +88,7 @@ if (SERVER) then
 		return wire_data_Wireless_srv
 	end
 	
-	duplicator.RegisterEntityClass("gmod_wire_data_Wireless_srv", MakeWirebtsrv, "Pos", "Ang", "Model", "Vel", "aVel", "frozen")
+	duplicator.RegisterEntityClass("gmod_wire_wireless_srv", MakeWirebtsrv, "Pos", "Ang", "Model", "Vel", "aVel", "frozen")
 
 end
 
@@ -98,7 +98,7 @@ function TOOL:UpdateGhostWirebtsrv( ent, player )
 	local tr 	= util.GetPlayerTrace( player, player:GetAimVector() )
 	local trace 	= util.TraceLine( tr )
 
-	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_wire_data_Wireless_srv" ) then
+	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_wire_wireless_srv" ) then
 		ent:SetNoDraw( true )
 		return
 	end

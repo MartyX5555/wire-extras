@@ -86,8 +86,7 @@ if SERVER then
 	function MakeWireUserReader(pl, Pos, Ang, target, NoColorChg)
 		if not pl:CheckLimit("wire_rfid_reader_acts") then return false end
 		
-		local wire_rfid_reader_act
-		wire_rfid_reader_act = ents.Create("gmod_wire_rfid_reader_act")
+		local wire_rfid_reader_act = ents.Create("gmod_wire_rfid_reader_act")
 		
 		if not wire_rfid_reader_act:IsValid() then return false end
 
@@ -110,7 +109,7 @@ if SERVER then
 		return wire_rfid_reader_act
 	end
 	
-	duplicator.RegisterEntityClass("gmod_wire_rfid_reader_act", MakeWirePod, "Pos", "Ang", "target","NoColorChg","Vel", "aVel", "frozen")
+	duplicator.RegisterEntityClass("gmod_wire_rfid_reader_act", MakeWireUserReader, "Pos", "Ang", "target","NoColorChg","Vel", "aVel", "frozen")
 
 end
 

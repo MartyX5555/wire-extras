@@ -30,7 +30,7 @@ function TOOL:LeftClick( trace )
 
 	local ply = self:GetOwner()
 
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_data_Wireless_recv" && trace.Entity:GetTable().pl == ply ) then
+	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_wireless_recv" && trace.Entity:GetTable().pl == ply ) then
 		return true
 	end
 
@@ -72,7 +72,7 @@ if (SERVER) then
 	function MakeWirebtrecv( pl, Pos, Ang, Model )
 		if ( !pl:CheckLimit( "wire_data_Wireless_recv" ) ) then return false end
 	
-		local wire_data_Wireless_recv = ents.Create( "gmod_wire_Wireless_recv" )
+		local wire_data_Wireless_recv = ents.Create( "gmod_wire_wireless_recv" )
 		if (!wire_data_Wireless_recv:IsValid()) then return false end
 
 		wire_data_Wireless_recv:SetAngles( Ang )
@@ -87,8 +87,7 @@ if (SERVER) then
 
 		return wire_data_Wireless_recv
 	end
-	
-	duplicator.RegisterEntityClass("gmod_wire_data_Wireless_recv", MakeWirebtrecv, "Pos", "Ang", "Model", "Vel", "aVel", "frozen")
+	duplicator.RegisterEntityClass("gmod_wire_wireless_recv", MakeWirebtrecv, "Pos", "Ang", "Model", "Vel", "aVel", "frozen")
 
 end
 
@@ -98,7 +97,7 @@ function TOOL:UpdateGhostWirebtrecv( ent, player )
 	local tr 	= util.GetPlayerTrace( player, player:GetAimVector() )
 	local trace 	= util.TraceLine( tr )
 
-	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_wire_data_Wireless_recv" ) then
+	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_wire_wireless_recv" ) then
 		ent:SetNoDraw( true )
 		return
 	end

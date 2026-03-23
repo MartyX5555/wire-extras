@@ -31,18 +31,19 @@ function ENT:Initialize()
 	self.Outputs = Wire_CreateOutputs(self, { "ID", "Connected", "Count" , "Message" , "Clients" })
 end
 
-function BTClientUpdateMessage( self )
+local function BTClientUpdateMessage( self )
+	local Device = self.Entity
 
-	if ( self.Connected != 0 ) then
-		Wire_TriggerOutput(self, "Connected", 1 )
+	if ( Device.Connected != 0 ) then
+		Wire_TriggerOutput(Device, "Connected", 1 )
 	else
-		Wire_TriggerOutput(self, "Connected", 0 )
+		Wire_TriggerOutput(Device, "Connected", 0 )
 	end
 
-	Wire_TriggerOutput(self, "ID", self.clientID )
-	Wire_TriggerOutput(self, "Count", #self.Buff )
+	Wire_TriggerOutput(Device, "ID", self.clientID )
+	Wire_TriggerOutput(Device, "Count", #self.Buff )
 	
-	Wire_TriggerOutput(self, "Message", self.Buff[1] or 0 )
+	Wire_TriggerOutput(Device, "Message", self.Buff[1] or 0 )
 	
 end
 
