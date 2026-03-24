@@ -80,10 +80,10 @@ function TOOL:LeftClick( trace )
 
 	local wire_adv_indicator = nil
 
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 
 	// If there's no physics object then we can't constraint it!
-	if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
+	if ( SERVER and !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
 
 	if (CLIENT) then return true end
 
@@ -143,7 +143,7 @@ function TOOL:LeftClick( trace )
 	if( self:GetClientNumber("usevectorinputs") == 1 ) then flags = bit.bor( flags, flag_vector_inputs ) end
 
 	// If we shot a wire_indicator change its data
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_adv_hudindicator" && trace.Entity.pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_adv_hudindicator" and trace.Entity.pl == ply ) then
 
 		trace.Entity:Setup(a, ar, ag, ab, aa, b, br, bg, bb, ba)
 		trace.Entity:SetMaterial( material )
@@ -209,7 +209,7 @@ end
 
 function TOOL:RightClick( trace )
 	// Can only right-click on HUD Indicators
-	if (!trace.Entity || !trace.Entity:IsValid() || trace.Entity:GetClass() != "gmod_wire_adv_hudindicator") then return false end
+	if (!trace.Entity or !trace.Entity:IsValid() or trace.Entity:GetClass() ~= "gmod_wire_adv_hudindicator") then return false end
 
 	if (CLIENT) then return true end
 
@@ -241,7 +241,7 @@ end
 function TOOL:Reload( trace )
 	// Can only use this on HUD Indicators and vehicles
 	// The class checks are done later on, no need to do it twice
-	if (!trace.Entity || !trace.Entity:IsValid()) then return false end
+	if (!trace.Entity or !trace.Entity:IsValid()) then return false end
 
 	if (CLIENT) then return true end
 
@@ -249,7 +249,7 @@ function TOOL:Reload( trace )
 	local iNum = self:NumObjects()
 
 	if (iNum == 0) then
-		if (trace.Entity:GetClass() != "gmod_wire_adv_hudindicator") then
+		if (trace.Entity:GetClass() ~= "gmod_wire_adv_hudindicator") then
 			WireLib.AddNotify(ply, "You must select a HUD Indicator to link first.", NOTIFY_ERROR, 7, NOTIFYSOUND_ERROR1)
 			return false
 		end
@@ -258,7 +258,7 @@ function TOOL:Reload( trace )
 		self:SetObject( 1, trace.Entity, trace.HitPos, Phys, trace.PhysicsBone, trace.HitNormal )
 		self:SetStage(1)
 	elseif (iNum == 1) then
-		if (trace.Entity != self:GetEnt(1)) then
+		if (trace.Entity ~= self:GetEnt(1)) then
 			if (!string.find(trace.Entity:GetClass(), "prop_vehicle_")) then
 				WireLib.AddNotify(ply, "HUD Indicators can only be linked to vehicles.", NOTIFY_ERROR, 7, NOTIFYSOUND_ERROR1)
 				self:ClearObjects()
@@ -361,7 +361,7 @@ function TOOL:UpdateGhostWireAdvHudIndicator( ent, player )
 	local trace 	= util.TraceLine( tr )
 	if (!trace.Hit) then return end
 
-	if (trace.Entity && trace.Entity:GetClass() == "gmod_wire_adv_hudindicator" || trace.Entity:IsPlayer()) then
+	if (trace.Entity and trace.Entity:GetClass() == "gmod_wire_adv_hudindicator" or trace.Entity:IsPlayer()) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -380,9 +380,9 @@ end
 function TOOL:GetSelectedAngle( Ang )
 	local Model = self:GetClientInfo( "model" )
 	//these models get mounted differently
-	if (Model == "models/props_borealis/bluebarrel001.mdl" || Model == "models/props_junk/PopCan01a.mdl") then
+	if (Model == "models/props_borealis/bluebarrel001.mdl" or Model == "models/props_junk/PopCan01a.mdl") then
 		return Ang + Angle(180, 0, 0)
-	elseif (Model == "models/props_trainstation/trainstation_clock001.mdl" || Model == "models/segment.mdl" || Model == "models/segment2.mdl") then
+	elseif (Model == "models/props_trainstation/trainstation_clock001.mdl" or Model == "models/segment.mdl" or Model == "models/segment2.mdl") then
 		return Ang + Angle(-90, 0, (self:GetClientNumber("rotate90") * 90))
 	else
 		return Ang
@@ -392,7 +392,7 @@ end
 function TOOL:GetSelectedMin( min )
 	local Model = self:GetClientInfo( "model" )
 	//these models are different
-	if (Model == "models/props_trainstation/trainstation_clock001.mdl" || Model == "models/segment.mdl" || Model == "models/segment2.mdl") then
+	if (Model == "models/props_trainstation/trainstation_clock001.mdl" or Model == "models/segment.mdl" or Model == "models/segment2.mdl") then
 		return min.x
 	else
 		return min.z
@@ -400,7 +400,7 @@ function TOOL:GetSelectedMin( min )
 end
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self:GetClientInfo( "model" )) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self:GetClientInfo( "model" )) then
 		self:MakeGhostEntity( self:GetClientInfo( "model" ), Vector(0,0,0), self:GetSelectedAngle(Angle(0,0,0)) )
 	end
 
@@ -414,9 +414,9 @@ function TOOL:Think()
 			local tr = util.GetPlayerTrace(ply, ply:GetAimVector())
 			local trace = util.TraceLine(tr)
 
-			if (trace.Hit && trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_adv_hudindicator" && trace.Entity:GetPlayer() != ply) then
+			if (trace.Hit and trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_adv_hudindicator" and trace.Entity:GetPlayer() ~= ply) then
 				local currentcheck = trace.Entity:GetTable():CheckRegister(ply)
-				if (currentcheck != self.LastRegisterCheck) then
+				if (currentcheck ~= self.LastRegisterCheck) then
 					self.LastRegisterCheck = currentcheck
 					self:GetWeapon():SetNWBool("HUDIndicatorCheckRegister", currentcheck)
 				end
@@ -666,7 +666,7 @@ local function HUDIndicator_RemoteUnRegister(ply, cmd, arg)
 	local eindex = ply:GetInfoNum("wire_hudindicator_registerdelete", 0)
 	if (eindex == 0) then return end
 	local ent = ents.GetByIndex(eindex)
-	if (ent && ent:IsValid()) then
+	if (ent and ent:IsValid()) then
 		ent:UnRegisterPlayer(ply)
 	end
 end

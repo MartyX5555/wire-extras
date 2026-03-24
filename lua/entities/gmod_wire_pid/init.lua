@@ -90,10 +90,10 @@ function ENT:TriggerInput(iname, value)
 	end
 
 	/* Bound the integral term to the user limit */
-	if (self.iterm > self.ilim && error > 0) then
+	if (self.iterm > self.ilim and error > 0) then
 		self.iterm = self.ilim
 	end
-	if (self.iterm < -self.ilim && error < 0) then
+	if (self.iterm < -self.ilim and error < 0) then
 		self.iterm = -self.ilim
 	end
 

@@ -57,7 +57,7 @@ panelWidget["textbox"] = {
 								local lastBreak = 1
 								local numLines = 1
 								for chrNum = 1, string.len(compstring) do
-									if (string.byte(string.sub(compstring, chrNum, chrNum)) == 10) && (numLines <= maxLines) then
+									if (string.byte(string.sub(compstring, chrNum, chrNum)) == 10) and (numLines <= maxLines) then
 										outString = outString..string.Left(string.sub(compstring, lastBreak, chrNum), chrPerLine)
 										lastBreak = chrNum + 1
 										lastSpace = 0
@@ -66,7 +66,7 @@ panelWidget["textbox"] = {
 									if (string.sub(compstring, chrNum, chrNum) == " ") then
 										lastSpace = chrNum
 									end
-									if (chrNum >= lastBreak + maxLineLen) && (numLines <= maxLines) then	--if we've gone past a line length since the last break and line is still on screen
+									if (chrNum >= lastBreak + maxLineLen) and (numLines <= maxLines) then	--if we've gone past a line length since the last break and line is still on screen
 										if (lastSpace > 0) then
 											outString = outString..string.Left(string.sub(compstring, lastBreak, lastSpace), chrPerLine).."\n"
 											lastBreak = lastSpace + 1

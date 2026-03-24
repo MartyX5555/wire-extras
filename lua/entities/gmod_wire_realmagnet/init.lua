@@ -53,7 +53,7 @@ function ENT:Think()
 		local entsTA=ents.FindInSphere(myPos,self:GetLength())
 		for k, ent in pairs(entsTA) do
 			local phys = ent:GetPhysicsObject()
-			if phys:IsValid() and ent:IsValid() and ent!=self and self:CheckFilter(ent, phys) then
+			if phys:IsValid() and ent:IsValid() and ent~=self and self:CheckFilter(ent, phys) then
 				local direction = ent:GetPos() - myPos
 				local dist = math.max(direction:Length(), 1e-6)
 

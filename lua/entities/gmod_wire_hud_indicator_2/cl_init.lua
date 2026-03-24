@@ -214,7 +214,7 @@ function H2DrawHML()
 			
 			HUD_System.entityInputs = HUD_System.hookedEnts[eindex].renderer.inputs
 			
-			if( data.renderer:GetRenderTable() != nil ) then
+			if( data.renderer:GetRenderTable() ~= nil ) then
 				if( data.renderer:Draw( t ) == false ) then
 					HUD_System.NextCheckTime = CurTime() + 3.0
 					HUD_System.NextCheckTime = HUD_System.NextCheckTime + 3

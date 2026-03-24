@@ -73,13 +73,13 @@ function ENT:TriggerInput( iname, Value )
 end
 
 function ENT:ReadCell( Address )
-	if ( Address >= 0 && Address < self.Size ) then
+	if ( Address >= 0 and Address < self.Size ) then
 		return self.Memory[Address]
 	end
 end
 
 function ENT:WriteCell( Address, Value )
-	if ( Address >= 0 && Address < self.Size ) then
+	if ( Address >= 0 and Address < self.Size ) then
 		self.Memory[Address] = Value or 0
 		return true
 	end

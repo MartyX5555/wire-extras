@@ -81,7 +81,7 @@ function ENT:ApplyDupeInfo(ply, ent, info, GetEntByID)
 			grid = ents.GetByIndex(info.holoemitter_grid)
 		end
 	end
-	if (grid && grid:IsValid()) then
+	if (grid and grid:IsValid()) then
 		self:LinkToGrid(grid)
 	end
 end
@@ -93,7 +93,7 @@ end
 
 function ENT:TriggerInput( inputname, value )
 	if(not value) then return; end
-	if (inputname == "Reset" and value != 0)  then
+	if (inputname == "Reset" and value ~= 0)  then
 		self:WriteCell(4,0)
 	elseif (inputname == "Active") then
 		self:WriteCell(0,value)
@@ -161,11 +161,11 @@ end
 function HSHoloInteract(ply,cmd,args)
 	local entid = tonumber(args[1])
 	local num = tonumber(args[2])
-	if (!entid || entid <= 0) then return end
+	if (!entid or entid <= 0) then return end
 	ent = ents.GetByIndex(entid)
-	if (!ent || !ent:IsValid()) then return end
-	if (ent:GetClass() != "gmod_wire_hsholoemitter") then return end
-	if (num < 0 || num > 680) then return end
+	if (!ent or !ent:IsValid()) then return end
+	if (ent:GetClass() ~= "gmod_wire_hsholoemitter") then return end
+	if (num < 0 or num > 680) then return end
 	if ( !gamemode.Call( "PlayerUse", ply, ent ) ) then return end
 	
 	ent:WriteCell(1,num)

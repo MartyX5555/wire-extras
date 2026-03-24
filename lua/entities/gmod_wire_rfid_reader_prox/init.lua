@@ -56,7 +56,7 @@ function ENT:Think()
 	end
 
 	if (!ent) then
-		if(self.State!=0)then
+		if(self.State~=0)then
             if !self.NoColorChg then self:SetColor(Color(255, 255, 255, 255)) end
 			Wire_TriggerOutput(self,"State",0) self.State=0
 			Wire_TriggerOutput(self,"A",0)     self.A=0

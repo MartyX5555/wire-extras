@@ -39,7 +39,7 @@ function TOOL:LeftClick( trace )
 	local limit = self:GetClientNumber("limit")
 
 	/* If we're just updating, call the PID's SetupGains and exit */
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_pid") then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_pid") then
 		trace.Entity:SetupGains(pgain, igain, dgain, dcut, ilim, limit)
 		return true
 	end
@@ -81,7 +81,7 @@ function TOOL:RightClick( trace )
 	local ply = self:GetOwner()
 
 	/* If we hit a PID loop that's ours, get its settings and change the tool's to match */
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_pid" && trace.Entity:GetPlayer() == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_pid" and trace.Entity:GetPlayer() == ply ) then
 		local pgain, igain, dgain, dcut, ilim, limit = trace.Entity.p, trace.Entity.i, trace.Entity.d, trace.Entity.dcut, trace.Entity.ilim, trace.Entity.limit
 		local ply = self:GetOwner()
 		ply:ConCommand("wire_pid_pgain "..pgain)
@@ -120,7 +120,7 @@ function TOOL:UpdateGhostWirePID( ent, player )
 	local trace 	= util.TraceLine( tr )
 	if (!trace.Hit) then return end
 
-	if (trace.Entity && trace.Entity:GetClass() == "gmod_wire_pid" || trace.Entity:IsPlayer()) then
+	if (trace.Entity and trace.Entity:GetClass() == "gmod_wire_pid" or trace.Entity:IsPlayer()) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -137,7 +137,7 @@ end
 
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self.Model ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self.Model ) then
 		self:MakeGhostEntity( self.Model, Vector(0,0,0), Angle(0,0,0) )
 	end
 

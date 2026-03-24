@@ -33,7 +33,7 @@ function ENT:Think( )
 	);
 
 	lastclear = self:GetNWInt("Clear")
-	if(lastclear != self.LastClear) then
+	if(lastclear ~= self.LastClear) then
 		self.PointList = {}
 		self.LastClear = lastclear
 	end
@@ -43,7 +43,7 @@ function ENT:Think( )
 	self:SetRenderBoundsWS( p - self.RBound, p + self.RBound )
 	
 	// did the point differ from active point?
-	if( point != self.ActivePoint && self:GetNWBool( "Active" ) ) then
+	if( point ~= self.ActivePoint and self:GetNWBool( "Active" ) ) then
 		// fetch color.
 		local a = self:GetColor().a;
 	
@@ -75,7 +75,7 @@ function ENT:Draw( )
 	
 	// read emitter.
 	local emitter = self:GetNWEntity( "grid" );
-	if( !emitter || !emitter:IsValid() ) then return; end
+	if( !emitter or !emitter:IsValid() ) then return; end
 	
 	// calculate emitter position.
 	local fwd 	= emitter:GetForward();
@@ -104,7 +104,7 @@ function ENT:Draw( )
 	end
 	
 	// draw active point - beam
-	if( drawbeam && groundbeam) then
+	if( drawbeam and groundbeam) then
 		render.SetMaterial( matbeam );
 		render.DrawBeam(
 			self:GetPos(),
@@ -239,7 +239,7 @@ local function HoloPressCheck( ply, key )
 							AbsAng = TempPos:Angle()
 							PitchDiff = math.abs(AbsAng.p - ply_EyeAng.p)
 							YawDiff = math.abs(AbsAng.y - ply_EyeAng.y)
-							if (YawDiff <= 5 && PitchDiff <= 5) then
+							if (YawDiff <= 5 and PitchDiff <= 5) then
 								ShortestDistance = AbsDist
 								LastX = point.pos.x
 								LastY = point.pos.y

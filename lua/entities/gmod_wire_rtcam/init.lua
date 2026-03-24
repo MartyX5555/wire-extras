@@ -50,10 +50,10 @@ function ENT:TriggerInput(iname, value)
 end
 
 function ENT:ReadCell( Address )
-	if ( Address >= 0 && Address <= 1 ) then
+	if ( Address >= 0 and Address <= 1 ) then
 		local ret = 0
 		
-		if ( Address == 0 && ( RenderTargetCameraProp != self ) ) || ( Address == 1 && ( self:GetNWInt( "hide", 0 ) > 0 ) ) then
+		if ( Address == 0 and ( RenderTargetCameraProp ~= self ) ) or ( Address == 1 and ( self:GetNWInt( "hide", 0 ) > 0 ) ) then
 			ret = 1
 		end
 		
@@ -104,7 +104,7 @@ function ENT:Think()
 end
 
 function ENT:SetPlayer( ply )
-	if ( ply && ply:IsValid() ) then
+	if ( ply and ply:IsValid() ) then
 		self:SetNWEntity( E_PLAYER, ply )
 	end
 end
@@ -127,7 +127,7 @@ function ENT:OnTakeDamage( dmginfo )
 end
 
 function ENT:OnRemove()
-	if RenderTargetCameraProp != self then return end
+	if RenderTargetCameraProp ~= self then return end
 	Cameras = ents.FindByClass( "gmod_rtcameraprop" )
 	if ( #Cameras > 0 ) then
 		CameraIdx = math.random( #Cameras )		

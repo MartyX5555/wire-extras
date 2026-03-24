@@ -30,7 +30,7 @@ end
 
 function ENT:Think() --//think function of the card. any actions can be done in here. main one: check if the socket is still there
 	sock = self:GetSocket()
-	if (sock && !sock:IsValid()) then
+	if (sock and !sock:IsValid()) then
 		self:ResetSocket()
 	end
 	
@@ -63,8 +63,8 @@ function ENT:CanRead() --//asks, if reader/writer can read from card
 end
 
 function ENT:WriteCell( Address, value ) --//Writes a Cell on the Card
-	if (Address >= 0 && Address <= (self.Size - 1)) then
-		if (value != 0) then
+	if (Address >= 0 and Address <= (self.Size - 1)) then
+		if (value ~= 0) then
 			self.Memory[Address] = value
 		else
 			self.Memory[Address] = nil
@@ -75,7 +75,7 @@ function ENT:WriteCell( Address, value ) --//Writes a Cell on the Card
 end
 
 function ENT:ReadCell( Address ) --//Reads a Cell from the Card
-	if (Address >= 0 && Address <= (self.Size - 1)) then
+	if (Address >= 0 and Address <= (self.Size - 1)) then
 		if (self.Memory[Address]) then
 			return self.Memory[Address]
 		else

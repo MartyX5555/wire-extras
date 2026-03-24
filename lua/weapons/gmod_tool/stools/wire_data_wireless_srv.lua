@@ -30,7 +30,7 @@ function TOOL:LeftClick( trace )
 
 	local ply = self:GetOwner()
 
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_wireless_srv" && trace.Entity:GetTable().pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_wireless_srv" and trace.Entity:GetTable().pl == ply ) then
 		return true
 	end
 
@@ -93,12 +93,12 @@ if (SERVER) then
 end
 
 function TOOL:UpdateGhostWirebtsrv( ent, player )
-	if ( !ent || !ent:IsValid() ) then return end
+	if ( !ent or !ent:IsValid() ) then return end
 
 	local tr 	= util.GetPlayerTrace( player, player:GetAimVector() )
 	local trace 	= util.TraceLine( tr )
 
-	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_wire_wireless_srv" ) then
+	if (!trace.Hit or trace.Entity:IsPlayer() or trace.Entity:GetClass() == "gmod_wire_wireless_srv" ) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -114,7 +114,7 @@ function TOOL:UpdateGhostWirebtsrv( ent, player )
 end
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self.Model ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self.Model ) then
 		self:MakeGhostEntity( self:GetClientInfo("Model"), Vector(0,0,0), Angle(0,0,0) )
 	end
 

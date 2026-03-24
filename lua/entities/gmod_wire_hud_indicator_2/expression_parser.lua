@@ -263,7 +263,7 @@ function EXPR_Parser:Calc( input, context, expectedType )
 	
 	if( self.andStack:peekTop() ~= nil and self.andStack:peekTop().value ~= nil ) then
 	
-		if( expectedType and type(self.andStack:peekTop().value) != expectedType ) then
+		if( expectedType and type(self.andStack:peekTop().value) ~= expectedType ) then
 			return nil
 		end
 		

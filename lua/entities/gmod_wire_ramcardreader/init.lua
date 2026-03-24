@@ -29,8 +29,8 @@ end
 function ENT:Think()
 	self.BaseClass.Think(self)
 	
-	if (self.CardWeld && !self.CardWeld:IsValid()) then
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+	if (self.CardWeld and !self.CardWeld:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			self.PluggedCard:ResetSocket()
 		end
 		self.CardWeld = nil
@@ -47,11 +47,11 @@ function ENT:Think()
 		return true
 	end
 	
-	if (!self.PluggedCard || !self.PluggedCard:IsValid()) then
+	if (!self.PluggedCard or !self.PluggedCard:IsValid()) then
 		self:SearchCards()
 	end
 	
-	if (self.PluggedCard && self.PluggedCard:IsValid()) then
+	if (self.PluggedCard and self.PluggedCard:IsValid()) then
 		self:NextThink( CurTime() + 1 )
 	else
 		self:NextThink( CurTime() + 0.2 )
@@ -64,13 +64,13 @@ function ENT:SearchCards()
 	local local_ents = ents.FindInSphere( sockCenter, CARD_IN_ATTACH_RANGE )
 	for key, card in pairs(local_ents) do
 		// If we find a plug, try to attach it to us
-		if ( card && card:IsValid() && card:GetTable().IsRamCard ) then
+		if ( card and card:IsValid() and card:GetTable().IsRamCard ) then
 			// If no other sockets are using it
-			if (card:GetSocket() == nil || !card:GetSocket():IsValid()) then
+			if (card:GetSocket() == nil or !card:GetSocket():IsValid()) then
 				self:PlugCard(card)
 			end
 		end
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			break
 		end
 	end
@@ -87,7 +87,7 @@ function ENT:PlugCard( card )
 	end
 	
 	self.CardWeld = constraint.Weld( self, card, 0, 0, CARD_IN_SOCKET_CONSTRAINT_POWER, true )
-	if (!self.CardWeld && !self.CardWeld:IsValid()) then
+	if (!self.CardWeld and !self.CardWeld:IsValid()) then
 	    self.CardNoCollide:Remove()
 	    self.CardNoCollide = nil
 	    return
@@ -110,7 +110,7 @@ end
 
 function ENT:WriteCell( Address, value )
 	if (Address == 0) then
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			if (value <= 0) then
 				self.CardWeld:Remove()
 				self.CardNoCollide:Remove()
@@ -127,7 +127,7 @@ function ENT:WriteCell( Address, value )
 		end
 		return true
 	elseif (Address >= 2) then
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			if (self.PluggedCard:CanWrite()) then
 				return self.PluggedCard:WriteCell( Address - 1, value )
 			end
@@ -138,17 +138,17 @@ end
 
 function ENT:ReadCell( Address )
 	if (Address == 0) then
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			return 1
 		else
 			return 0
 		end
 	elseif (Address == 1) then
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			return self.PluggedCard:GetSize()
 		end
 	else
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			if (self.PluggedCard:CanRead()) then
 				return self.PluggedCard:ReadCell( Address - 1 )
 			end
@@ -159,16 +159,16 @@ end
 
 function ENT:TriggerInput( iname, value )
 	if (iname == "AddrWrite") then
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			if (self.Inputs["Clk"].Value > 0) then
-				if (value >= 0 && value < self.PluggedCard:GetSize()) then
+				if (value >= 0 and value < self.PluggedCard:GetSize()) then
 					self:WriteCell(value + 2, self.Inputs["Data"].Value)
 				end
 			end
 		end
 	elseif (iname == "AddrRead") then
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
-			if (value >= 0 && value < self.PluggedCard:GetSize()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
+			if (value >= 0 and value < self.PluggedCard:GetSize()) then
 				Wire_TriggerOutput(self,"Data",self:ReadCell(value+2))
 			else
 				Wire_TriggerOutput(self,"Data",0)
@@ -177,9 +177,9 @@ function ENT:TriggerInput( iname, value )
 			Wire_TriggerOutput(self,"Data",0)
 		end
 	elseif (iname == "Clk") then
-		if (self.PluggedCard && self.PluggedCard:IsValid()) then
+		if (self.PluggedCard and self.PluggedCard:IsValid()) then
 			if (self.Inputs["Clk"].Value > 0) then
-				if (self.Inputs["AddrWrite"].Value >= 0 && self.Inputs["AddrWrite"].Value < self.PluggedCard:GetSize()) then
+				if (self.Inputs["AddrWrite"].Value >= 0 and self.Inputs["AddrWrite"].Value < self.PluggedCard:GetSize()) then
 					self:WriteCell(self.Inputs["AddrWrite"].Value + 2, self.Inputs["Data"].Value)
 				end
 			end

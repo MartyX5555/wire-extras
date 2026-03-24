@@ -47,16 +47,16 @@ function TOOL:LeftClick( trace )
 	
 	ply:AddCleanup( "cameras", camera )
 	
-	if !RenderTargetCamera || #ents.FindByClass( "gmod_rtcameraprop" ) == 1 then UpdateRenderTarget( camera ) end
+	if !RenderTargetCamera or #ents.FindByClass( "gmod_rtcameraprop" ) == 1 then UpdateRenderTarget( camera ) end
 	
 	return false, camera
 end
 -- Global Function to update the render target --This was removed by garry, adding it here fixes the tool.
 
 function UpdateRenderTarget( ent )
-	if ( !ent || !ent:IsValid() ) then return end
+	if ( !ent or !ent:IsValid() ) then return end
 
-	if ( !RenderTargetCamera || !RenderTargetCamera:IsValid() ) then
+	if ( !RenderTargetCamera or !RenderTargetCamera:IsValid() ) then
 	
 		RenderTargetCamera = ents.Create( "point_camera" )
 		RenderTargetCamera:SetKeyValue( "GlobalOverride", 1 )

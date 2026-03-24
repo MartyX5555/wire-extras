@@ -32,7 +32,7 @@ function TOOL:LeftClick(trace)
 
 	local ply = self:GetOwner()
 
-	local NoColorChg = (self:GetClientNumber("NoColorChg")!=0)
+	local NoColorChg = (self:GetClientNumber("NoColorChg")~=0)
 	
 	if trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_rfid_reader_act" and trace.Entity:GetTable().pl == ply then
 		trace.Entity:Setup( nil,NoColorChg )

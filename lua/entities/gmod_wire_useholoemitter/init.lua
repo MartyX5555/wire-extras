@@ -50,7 +50,7 @@ end
 function ENT:TriggerInput( inputname, value, iter )
 	// store values.
 	if(not value) then return end;
-	if (inputname == "Clear" and value != 0)  then
+	if (inputname == "Clear" and value ~= 0)  then
 		self.LastClear = self.LastClear + 1
 		self:SetNWInt( "Clear", self.LastClear );
 		
@@ -62,7 +62,7 @@ function ENT:TriggerInput( inputname, value, iter )
 		self:SetNWFloat( "X", value.x );
 		self:SetNWFloat( "Y", value.y );
 		self:SetNWFloat( "Z", value.z );
-	elseif (inputname && inputname != "") then
+	elseif (inputname and inputname ~= "") then
 		self:SetNWFloat( inputname, tonumber(value) );
 	end
 end
@@ -136,7 +136,7 @@ function ENT:ApplyDupeInfo(ply, ent, info, GetEntByID)
 		grid = ents.GetByIndex(info.holoemitter_grid)
 		end
 	end
-	if (grid && grid:IsValid()) then
+	if (grid and grid:IsValid()) then
 		self:LinkToGrid(grid)
 	end
 end
@@ -150,11 +150,11 @@ function HoloInteract(ply,cmd,args)
 	local x = tonumber(args[2])
 	local y = tonumber(args[3])
 	local z = tonumber(args[4])
-	if (!entid || entid <= 0) then return end
+	if (!entid or entid <= 0) then return end
 	ent = ents.GetByIndex(entid)
-	if (!ent || !ent:IsValid()) then return end
-	if (ent:GetClass() != "gmod_wire_useholoemitter") then return end
-	if (!x || !y || !z) then return end
+	if (!ent or !ent:IsValid()) then return end
+	if (ent:GetClass() ~= "gmod_wire_useholoemitter") then return end
+	if (!x or !y or !z) then return end
 	if ( !gamemode.Call( "PlayerUse", ply, ent ) ) then return end
 	
 	Wire_TriggerOutput( ent.Entity,"Pressed X",x)

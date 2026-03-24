@@ -39,10 +39,10 @@ cleanup.Register( "wire_keycardreaders" )
 
 function TOOL:LeftClick( trace )
 
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 
 	// If there's no physics object then we can't constraint it!
-	if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
+	if ( SERVER and !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
 
 	if (CLIENT) then return true end
 
@@ -51,7 +51,7 @@ function TOOL:LeftClick( trace )
 	// local z_only = (self:GetClientNumber("z_only") ~= 0)
 
 	// If we shot a wire_keycardspawner or wire_keycardreader do nothing
-	if ( trace.Entity:IsValid() && trace.Entity.pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity.pl == ply ) then
 		if (trace.Entity:GetClass() == "gmod_wire_keycardspawner") then
 			// trace.Entity:Setup(z_only)
 			// trace.Entity.z_only = z_only
@@ -92,10 +92,10 @@ end
 
 function TOOL:RightClick( trace )
 
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 
 	// If there's no physics object then we can't constraint it!
-	if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
+	if ( SERVER and !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
 
 	if (CLIENT) then return true end
 
@@ -104,7 +104,7 @@ function TOOL:RightClick( trace )
 	// local z_only = (self:GetClientNumber("z_only") ~= 0)
 
 	// If we shot a wire_keycardspawner or wire_keycardreader do nothing
-	if ( trace.Entity:IsValid() && trace.Entity.pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity.pl == ply ) then
 		if (trace.Entity:GetClass() == "gmod_wire_keycardspawner") then
 			// Handle card spawner stuff on right-click.
 			return true
@@ -206,7 +206,7 @@ function TOOL:UpdateGhostWireKeycardSpawner( ent, player )
 	local trace 	= util.TraceLine( tr )
 	if (!trace.Hit) then return end
 
-	if (trace.Entity && trace.Entity:GetClass() == "gmod_wire_keycardspawner" || trace.Entity:IsPlayer()) then
+	if (trace.Entity and trace.Entity:GetClass() == "gmod_wire_keycardspawner" or trace.Entity:IsPlayer()) then
 
 		ent:SetNoDraw( true )
 		return
@@ -227,7 +227,7 @@ end
 
 function TOOL:Think()
 
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self.Model ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self.Model ) then
 		self:MakeGhostEntity( self.Model, Vector(0,0,0), Angle(0,0,0) )
 	end
 

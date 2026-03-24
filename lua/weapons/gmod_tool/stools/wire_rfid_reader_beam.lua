@@ -35,7 +35,7 @@ function TOOL:LeftClick( trace )
 
 	local ply = self:GetOwner()
 
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_rfid_reader_beam" && trace.Entity:GetTable().pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_rfid_reader_beam" and trace.Entity:GetTable().pl == ply ) then
 		return true
 	end
 
@@ -45,7 +45,7 @@ function TOOL:LeftClick( trace )
 	Ang.pitch = Ang.pitch + 90
 	
 	local Range = self:GetClientNumber("Range")
-	local NoColorChg = (self:GetClientNumber("NoColorChg")!=0)
+	local NoColorChg = (self:GetClientNumber("NoColorChg")~=0)
 
 	local wire_rfid_reader_beam = MakeWireBeamReader( ply, trace.HitPos, Range, NoColorChg, Ang )
 
@@ -104,12 +104,12 @@ if (SERVER) then
 end
 
 function TOOL:UpdateGhostWireBeamReader( ent, player )
-	if ( !ent || !ent:IsValid() ) then return end
+	if ( !ent or !ent:IsValid() ) then return end
 
 	local tr 	= util.GetPlayerTrace( player, player:GetAimVector() )
 	local trace 	= util.TraceLine( tr )
 
-	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_wire_rfid_reader_beam" ) then
+	if (!trace.Hit or trace.Entity:IsPlayer() or trace.Entity:GetClass() == "gmod_wire_rfid_reader_beam" ) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -125,7 +125,7 @@ function TOOL:UpdateGhostWireBeamReader( ent, player )
 end
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self.Model ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self.Model ) then
 		self:MakeGhostEntity( self.Model, Vector(0,0,0), Angle(0,0,0) )
 	end
 

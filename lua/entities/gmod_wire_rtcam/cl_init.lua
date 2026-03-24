@@ -42,7 +42,7 @@ function ENT:Draw()
 
 	self:DrawModel()
 	
-	if ( !self.ShouldDrawInfo || !self.Texture ) then return end
+	if ( !self.ShouldDrawInfo or !self.Texture ) then return end
 	
 	
 	render.SetMaterial( self.Texture )

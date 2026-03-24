@@ -38,7 +38,7 @@ function ENT:TriggerInput(iname, value)
 end
 
 function ENT:OnTakeDamage(dmginfo)
-	if (self.On != 0) then
+	if (self.On ~= 0) then
 		self.Damage = dmginfo:GetDamage()
 		self.Enti = dmginfo:GetAttacker()
 	else
@@ -47,7 +47,7 @@ function ENT:OnTakeDamage(dmginfo)
 end
 
 function ENT:Think()
-	if ( self.On != 0 ) then
+	if ( self.On ~= 0 ) then
 		Wire_TriggerOutput(self, "Damage", self.Damage)			
 		Wire_TriggerOutput( self, "Entity", self.Enti )	
 		self:SetOverlayText( "The Damage Is "..self.Damage )

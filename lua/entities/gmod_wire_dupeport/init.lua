@@ -87,7 +87,7 @@ end
 
 function ENT:TriggerInput(iname, value)
 	if (iname == "Read Entity") then
-		if (value > 0 && !self.SendingData) then
+		if (value > 0 and !self.SendingData) then
 			self:ClearClipBoard()
 						
 			if ( CLIENT ) then return true end
@@ -100,7 +100,7 @@ function ENT:TriggerInput(iname, value)
 			tr.filter = { self }
 			local trace = util.TraceLine( tr )
 			
-			if (trace.Entity && trace.Entity:IsValid()) then
+			if (trace.Entity and trace.Entity:IsValid()) then
 				self.OutEntities = {}
 				self.OutConstraints = {}
 				
@@ -123,7 +123,7 @@ function ENT:TriggerInput(iname, value)
 			end
 		end
 	elseif (iname == "Spawn Entity") then
-		if (value > 0 && !self.SendingData) then
+		if (value > 0 and !self.SendingData) then
 			if ( CLIENT ) then	return true	end
 			if ( self.SpawnData ) then
 				local ply = self:GetUserEntity(self.SpawnSteamID)
@@ -134,7 +134,7 @@ function ENT:TriggerInput(iname, value)
 			end
 		end
 	elseif (iname == "Serialise Entity") then
-		if (value > 0 && self.Copied && !self.SendingData) then
+		if (value > 0 and self.Copied and !self.SendingData) then
 			local Header = {}
 			Header[1] = "Type:"			.."AdvDupe File"
 			Header[2] =	"Creator:"		..string.format('%q', self:GetUserEntity(self.OwnerSteamID):GetName())
@@ -204,8 +204,8 @@ function ENT:TriggerInput(iname, value)
 			Wire_TriggerOutput(self,"Serialised Output Block Count",self.OutBlockCount)
 		end
 	elseif (iname == "Deserialise Input") then
-		if (value > 0 && self.InSerialised != "" && !self.SendingData) then
-			if ( string.Left(self.InSerialised, 5) != "\"Out\"") then
+		if (value > 0 and self.InSerialised ~= "" and !self.SendingData) then
+			if ( string.Left(self.InSerialised, 5) ~= "\"Out\"") then
 				local function DupePortLoad(ply, filepath, ent, HeaderTbl, ExtraHeaderTbl, Data)
 					if ( HeaderTbl.Type ) and ( HeaderTbl.Type == "AdvDupe File" ) then
 						ExtraHeaderTbl.FileVersion = tonumber(ExtraHeaderTbl.FileVersion)
@@ -247,17 +247,17 @@ function ENT:TriggerInput(iname, value)
 			end
 		end
 	elseif (iname == "Piece Size") then
-		if (value >= 8 && !self.SendingData) then
+		if (value >= 8 and !self.SendingData) then
 			self.PieceSize = value
-		elseif (value < 8 && self.SendingData) then
+		elseif (value < 8 and self.SendingData) then
 			self.PieceSize = 8
 		end
 	elseif (iname == "Start Data Sending") then
-		if (value > 0 && !self.SendingData && (self.OutSerialised != "")) then
+		if (value > 0 and !self.SendingData and (self.OutSerialised ~= "")) then
 			self.SendingData = true
 		end
 	elseif (iname == "Data Input") then
-		if (value != "") then
+		if (value ~= "") then
 			if (string.sub(value,1,5) == "Data:") then
 				if (string.sub(value,6,10) == "Start") then
 					self:ClearInputClipBoard()
@@ -293,14 +293,14 @@ function ENT:TriggerInput(iname, value)
 			end
 		end
 	elseif (iname == "Clear Input") then
-		if (value > 0 && !self.ReceivingData) then
+		if (value > 0 and !self.ReceivingData) then
 			self:ClearInputClipBoard()
 		end
 	elseif (iname == "Spawn Player SteamID") then
 		if (game.SinglePlayer()) then
 			self.SpawnSteamID = self.OwnerSteamID
 		else
-			if (value != "") then
+			if (value ~= "") then
 				self.SpawnSteamID = value
 			else
 				self.SpawnSteamID = self.OwnerSteamID

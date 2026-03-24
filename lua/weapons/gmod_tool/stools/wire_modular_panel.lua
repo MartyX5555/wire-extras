@@ -97,7 +97,7 @@ end
 
 if (SERVER) then
 	function spawnModularPanel(ply, trace, widgetTable, params)
-		if (trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_modular_panel" && trace.Entity.pl == ply) then
+		if (trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_modular_panel" and trace.Entity.pl == ply) then
 			trace.Entity:Setup(widgetTable)
 			--BuildModPanel(trace.Entity, filename)
 			return true
@@ -155,7 +155,7 @@ function TOOL:UpdateGhostWireTextScreen( ent, player )
 
 	if (!trace.Hit) then return end
 
-	if (trace.Entity && trace.Entity:GetClass() == "gmod_wire_modular_panel" || trace.Entity:IsPlayer()) then
+	if (trace.Entity and trace.Entity:GetClass() == "gmod_wire_modular_panel" or trace.Entity:IsPlayer()) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -175,7 +175,7 @@ function TOOL:UpdateGhostWireTextScreen( ent, player )
 end
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self:GetClientInfo( "model" ) || (not self.GhostEntity:GetModel()) ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self:GetClientInfo( "model" ) or (not self.GhostEntity:GetModel()) ) then
 		self:MakeGhostEntity( self:GetClientInfo( "model" ), Vector(0,0,0), Angle(0,0,0) )
 	end
 	self:UpdateGhostWireTextScreen( self.GhostEntity, self:GetOwner() )

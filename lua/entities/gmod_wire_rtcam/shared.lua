@@ -19,7 +19,7 @@ ENT.AdminSpawnable		= false
 
 function ENT:TrackEntity( ent, lpos )
 
-	if ( !ent || !ent:IsValid() ) then return end
+	if ( !ent or !ent:IsValid() ) then return end
 
 	local WPos = self.TrackEnt:LocalToWorld( lpos )
 	

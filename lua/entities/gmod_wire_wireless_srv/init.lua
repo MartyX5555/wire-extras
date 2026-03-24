@@ -34,7 +34,7 @@ end
 local function BTClientUpdateMessage( self )
 	local Device = self.Entity
 
-	if ( Device.Connected != 0 ) then
+	if ( Device.Connected ~= 0 ) then
 		Wire_TriggerOutput(Device, "Connected", 1 )
 	else
 		Wire_TriggerOutput(Device, "Connected", 0 )
@@ -82,17 +82,17 @@ end
 
 function ENT:TriggerInput(iname, value)
 	
-	if ( value != nil && iname == "Key" ) then
+	if ( value ~= nil and iname == "Key" ) then
 		self.Key=value;
 		iname="Reset";
 		value=1;
 	end
 	
 	if ( iname == "Reset" ) then
-		if ( value != nil && math.floor( value ) != 0 ) then
+		if ( value ~= nil and math.floor( value ) ~= 0 ) then
 
 			for Key,Clis in pairs( self.clients ) do
-				if Clis.Connected != 0 then
+				if Clis.Connected ~= 0 then
 					Clis.Connected.Connected=0;
 					Clis.Connected:UpdateRMessage();
 				end
@@ -119,20 +119,20 @@ function ENT:TriggerInput(iname, value)
 	end
 
 	local Cli = self:GetClient();
-	if ( Cli != 0 ) then
+	if ( Cli ~= 0 ) then
 		if ( iname == "Pop" ) then
-			if ( value != nil && math.floor( value ) != 0 ) then
+			if ( value ~= nil and math.floor( value ) ~= 0 ) then
 				table.remove( Cli.Buff , 1 )
 			end
 		end
 		
-		if ( value != nil && iname == "Message" ) then
+		if ( value ~= nil and iname == "Message" ) then
 			Cli.SendMsg=value;
 		end
 
 		if ( iname == "Send" ) then
-			if ( value != nil && value != nil && math.floor( value ) != 0 ) then
-				if ( Cli.Connected != 0 ) then
+			if ( value ~= nil and value ~= nil and math.floor( value ) ~= 0 ) then
+				if ( Cli.Connected ~= 0 ) then
 					if ( Cli.Connected:IsValid() ) then 
 						Cli.Connected:Push( Cli.SendMsg )
 					else
@@ -151,8 +151,8 @@ function ENT:FindNextClient()
 	
 	while ( self.clientNum < self.clientMax ) do
 		
-		if ( self.clients[ self.clientNum ] != nil ) then
-			if ( self.clients[ self.clientNum ].Connected != 0 ) then
+		if ( self.clients[ self.clientNum ] ~= nil ) then
+			if ( self.clients[ self.clientNum ].Connected ~= 0 ) then
 				return;
 			end
 		end
@@ -165,7 +165,7 @@ end
 function ENT:Push( who , data )
 
 	local Cli = self:GetClient( who );
-	if ( Cli != 0 ) then
+	if ( Cli ~= 0 ) then
 		table.insert( Cli.Buff , data );
 	end
 	self:UpdateMsg();
@@ -193,7 +193,7 @@ end
 function ENT:CountActiveClients()
 	local lk=0;
 	for Key,Clis in pairs( self.clients ) do
-		if Clis.Connected != 0 then
+		if Clis.Connected ~= 0 then
 			lk = lk + 1;
 		end
 	end
@@ -202,12 +202,12 @@ end
 
 function ENT:UpdateMsg()
 	local Cli = self:GetClient();
-	if ( Cli != 0 ) then
+	if ( Cli ~= 0 ) then
 		Cli:UpdateMessage();
 		local CliCount=self:CountActiveClients();
 		Wire_TriggerOutput(self, "Clients", CliCount )
 		
-		if self.Key != 0 then
+		if self.Key ~= 0 then
 			self:SetOverlayText("Wireless Hub (" .. self.Key .. ") - " .. CliCount .. " connected")
 		else
 			self:SetOverlayText("Wireless Hub - " .. CliCount .. " connected")
@@ -215,7 +215,7 @@ function ENT:UpdateMsg()
 		
 	else
 		
-		if self.Key != 0 then
+		if self.Key ~= 0 then
 			self:SetOverlayText("Wireless Hub (" .. self.Key .. ") - 0 connected")
 		else
 			self:SetOverlayText("Wireless Hub - 0 connected")
@@ -233,7 +233,7 @@ if SERVER then
 	function ENT:OnRemove()
 
 		for Key,Clis in pairs( self.clients ) do
-			if Clis.Connected != 0 then
+			if Clis.Connected ~= 0 then
 				Clis.Connected.Connected=0;
 				Clis.Connected:UpdateRMessage();
 			end

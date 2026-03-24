@@ -131,7 +131,7 @@ GateActions["entity_parent"] = {
 	end,
 	label = function (Out, A)
 		local strParent = "(none)"
-		if (Out != NULL and IsEntity (Out)) then strParent = Out:GetName () end
+		if (Out ~= NULL and IsEntity (Out)) then strParent = Out:GetName () end
 		return string.format ("A: %s  Parent  %s", A, strParent)
 	end
 }
@@ -198,7 +198,7 @@ GateActions["player_printf"] = {
 			return
 		end
 		// Unrestricted usage
-		if (Act == 2 and ply and ply:IsPlayer () and msg != "") then 
+		if (Act == 2 and ply and ply:IsPlayer () and msg ~= "") then 
 			ply:ChatPrint (msg)
 		end
 	end,

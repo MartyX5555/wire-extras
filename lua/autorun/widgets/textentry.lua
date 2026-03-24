@@ -56,9 +56,9 @@ panelWidget["textentry"] = {
 							widget.parent:widgetOutput(ply, widget.modName, "text", widget.userText)
 						elseif (key == "BACKSPACE") then
 							widget.userText = string.sub(widget.userText, 1, -2)
-						elseif (key == "SPACE" && currentLen < tonumber(widget.paramTable[2])) then	
+						elseif (key == "SPACE" and currentLen < tonumber(widget.paramTable[2])) then	
 							widget.userText = widget.userText.." "
-						elseif (string.len(key) == 1 && currentLen < tonumber(widget.paramTable[2])) then
+						elseif (string.len(key) == 1 and currentLen < tonumber(widget.paramTable[2])) then
 							widget.userText = widget.userText..key
 						end
 						guiP_cl_drawUpdate(widget, 1, widget.userText)

@@ -16,12 +16,12 @@ end
 TOOL.ClientConVar["colscheme"] = ""
 
 function TOOL:LeftClick( trace )
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 	if (CLIENT) then return true end
 	
 	local themeName = self:GetClientInfo("colscheme")
 	--Msg("new theme = "..themeName.."\n")
-	if (trace.Entity.guiPanelVersion && themeName) then
+	if (trace.Entity.guiPanelVersion and themeName) then
 		guiP_SetPanelScheme(trace.Entity, themeName)
 	end
 	

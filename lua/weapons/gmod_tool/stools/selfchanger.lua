@@ -69,13 +69,13 @@ function TOOL:sendSetVal(ent, var, val)
 end
 
 function TOOL:LeftClick( trace )
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 	if (CLIENT) then return true end
 
 	local widValue    = self:GetClientInfo("widvalue")
 	local widVariable = self:GetClientInfo("widvariable")
 
-	--if (trace.Entity:IsValid() && trace.Entity.guiPanelVersion && trace.Entity.pl == ply) then
+	--if (trace.Entity:IsValid() and trace.Entity.guiPanelVersion and trace.Entity.pl == ply) then
 	--trace.Entity[widVariable] = widValue
 	self:sendSetVal(trace.Entity, widVariable, widValue)
 
@@ -83,13 +83,13 @@ function TOOL:LeftClick( trace )
 end
 
 function TOOL:RightClick( trace )
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 	--if (CLIENT) then return true end
 	if (SERVER) then return true end
 
 	--local themeName = self:GetClientInfo("themename")
 
-	--if (trace.Entity:IsValid() && trace.Entity.guiPanelVersion && trace.Entity.pl == ply) then
+	--if (trace.Entity:IsValid() and trace.Entity.guiPanelVersion and trace.Entity.pl == ply) then
 		--trace.Entity:SetPanelScheme(themeName)
 		--return true
 	--end

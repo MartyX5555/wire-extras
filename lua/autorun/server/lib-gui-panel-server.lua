@@ -266,7 +266,7 @@ function guiP_fileDataToTable (fileData)
 			local parmStart = 7
 			
 			--read wire settings
-			if (lineData[7] == "WIREI" || lineData[7] == "WIREO") then
+			if (lineData[7] == "WIREI" or lineData[7] == "WIREO") then
 				if (lineData[7] == "WIREI") then
 					newWidget.wire.wireType = 1
 					newWidget.wire.name = lineData[8]
@@ -363,7 +363,7 @@ function guiP_LoadWidgetsFromFileData(ent, fileData)
 			local parmStart = 7
 			
 			--read wire settings
-			if (lineData[7] == "WIREI" || lineData[7] == "WIREO") then
+			if (lineData[7] == "WIREI" or lineData[7] == "WIREO") then
 				if (lineData[7] == "WIREI") then
 					--Msg("adding wire input "..lineData[8].."\n")
 					table.insert(wireData.inputs, lineData[8])

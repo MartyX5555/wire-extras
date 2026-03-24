@@ -14,22 +14,22 @@ end
 
 local function getOwner(self, entity)
 	if(entity == self.Owner) then return self.Owner end
-	if(entity.pl != nil) then return entity.pl end
-	if(entity.ply != nil) then return entity.ply end
+	if(entity.pl ~= nil) then return entity.pl end
+	if(entity.ply ~= nil) then return entity.ply end
 	if(entity.OnDieFunctions == nil) then return nil end
 	if(entity.OnDieFunctions.GetCountUpdate == nil) then return nil end
 	if(entity.OnDieFunctions.GetCountUpdate.Args == nil) then return nil end
-	if(entity.OnDieFunctions.GetCountUpdate.Args[1] != nil) then return entity.OnDieFunctions.GetCountUpdate.Args[1] end
+	if(entity.OnDieFunctions.GetCountUpdate.Args[1] ~= nil) then return entity.OnDieFunctions.GetCountUpdate.Args[1] end
 	if(entity.OnDieFunctions.undo1 == nil) then return nil end
 	if(entity.OnDieFunctions.undo1.Args == nil) then return nil end
-	if(entity.OnDieFunctions.undo1.Args[2] != nil) then return entity.OnDieFunctions.undo1.Args[2] end
+	if(entity.OnDieFunctions.undo1.Args[2] ~= nil) then return entity.OnDieFunctions.undo1.Args[2] end
 	return nil
 end
 
 local function IsWire(entity) //try to find out if the entity is wire
 	if(entity.IsWire and entity.IsWire == true) then return true end //this shold always be true if the ent is wire compatible, but only is if the base of the entity is "base_wire_entity" THIS NEEDS TO BE FIXED
-	if(entity.Inputs != nil or entity.Outputs != nil) then return true end //this is how the wire STool gun does it
-	if(entity.inputs != nil or entity.outputs != nil) then return true end //try lower case
+	if(entity.Inputs ~= nil or entity.Outputs ~= nil) then return true end //this is how the wire STool gun does it
+	if(entity.inputs ~= nil or entity.outputs ~= nil) then return true end //try lower case
 	return false
 end
 
@@ -182,7 +182,7 @@ function ENT:TriggerInput(iname, value)
 	elseif (iname == "Wire") then
 		self.WireFire = value
 	elseif (iname == "TargetAssist") then
-		if(value != 0) then 
+		if(value ~= 0) then 
 			self.TargetAssist = 1 
 		else 
 			self.TargetAssist = 0
@@ -191,11 +191,11 @@ function ENT:TriggerInput(iname, value)
 		self.ClearLink = value
 	elseif (iname == "CreateWirelink") then
 		self.CreateWirelink = value
-	elseif (iname == "WireWidth" and value != self.WireWidth) then
+	elseif (iname == "WireWidth" and value ~= self.WireWidth) then
 		self.WireWidth = math.Clamp(math.abs(value),0,15)
-	elseif (iname == "WireMaterial" and value != "" and value != FixMaterialName(self.WireMaterial)) then
+	elseif (iname == "WireMaterial" and value ~= "" and value ~= FixMaterialName(self.WireMaterial)) then
 		self.WireMaterial = FixMaterialName(value)
-	elseif (iname == "WireColor" and value != self.WireColor) then
+	elseif (iname == "WireColor" and value ~= self.WireColor) then
 		self.WireColor = Vector(math.Clamp(math.abs(value.x),0,255),math.Clamp(math.abs(value.x),0,255),math.Clamp(math.abs(value.x),0,255))
 	elseif (iname == "TargetPos") then
 		self.TargetPos = Vector(value[1],value[2],value[3])
@@ -255,7 +255,7 @@ function ENT:TriggerInput(iname, value)
 			self.TargetEntity = nil
 			local i = 1
 			for i, CurrentEnt in pairs(PreFilterEnts) do
-				if(CurrentEnt and CurrentEnt:IsValid() and CurrentEnt != self and IsWire(CurrentEnt) and getOwner(self, CurrentEnt) == self.pl) then
+				if(CurrentEnt and CurrentEnt:IsValid() and CurrentEnt ~= self and IsWire(CurrentEnt) and getOwner(self, CurrentEnt) == self.pl) then
 					if(!self.TargetEntity) then self.TargetEntity = CurrentEnt end
 					table.insert(self.Ents,CurrentEnt)
 				end
@@ -281,8 +281,8 @@ function ENT:TriggerInput(iname, value)
 			local P2 = Endpos
 			table.sort(self.Ents, 
 				function(a, b)
-					if a == nil || !a:IsValid() then return false end
-					if b == nil || !b:IsValid() then return true end
+					if a == nil or !a:IsValid() then return false end
+					if b == nil or !b:IsValid() then return true end
 					local aDist = (a:GetPos()-P1):Cross(a:GetPos()-P2):Length()/(P2-P1):Length()
 					local bDist = (b:GetPos()-P1):Cross(b:GetPos()-P2):Length()/(P2-P1):Length()
 					return (aDist<bDist)
@@ -291,20 +291,20 @@ function ENT:TriggerInput(iname, value)
 			
 			//now sort them so that the first ones are the ones with the Input/Output that we want
 			StableBubbleSort(self.Ents,function(a, b)
-					if a == nil || !a:IsValid() then return false end
-					if b == nil || !b:IsValid() then return true end
+					if a == nil or !a:IsValid() then return false end
+					if b == nil or !b:IsValid() then return true end
 					if(self.Stage == 1) then
-						if(a.Outputs and self.OutputName != "" and a.Outputs[self.OutputName]) then 
+						if(a.Outputs and self.OutputName ~= "" and a.Outputs[self.OutputName]) then 
 							return true //if a has the correct output do nothing
-						elseif(b.Outputs and self.OutputName != "" and b.Outputs[self.OutputName]) then 
+						elseif(b.Outputs and self.OutputName ~= "" and b.Outputs[self.OutputName]) then 
 							return false //if b has the correct output switch a and b
 						else
 							return true //else do nothing
 						end
 					else
-						if(a.Inputs and self.InputName != "" and a.Inputs[self.InputName]) then 
+						if(a.Inputs and self.InputName ~= "" and a.Inputs[self.InputName]) then 
 							return true //if a has the correct do nothing
-						elseif(b.Inputs and self.InputName != "" and b.Inputs[self.InputName]) then
+						elseif(b.Inputs and self.InputName ~= "" and b.Inputs[self.InputName]) then
 							return false //if b has the correct input switch a and b
 						else
 							return true //else do nothing
@@ -333,7 +333,7 @@ function ENT:TriggerInput(iname, value)
 	if(self.TargetEntity and self.TargetEntity:IsValid() and self.TargetAssist == 1) then //Target Assist Trace
 		self.SkewX = -1*self:WorldToLocal(self.TargetEntity:GetPos()).y/self:WorldToLocal(self.TargetEntity:GetPos()).z
 		self.SkewY = self:WorldToLocal(self.TargetEntity:GetPos()).x/self:WorldToLocal(self.TargetEntity:GetPos()).z
-	elseif(self.TargetAssist == 0 and self.TargetPos != Vector(0,0,0) and self.TargetPos_Input == 1) then //Using Target Vector Position Trace
+	elseif(self.TargetAssist == 0 and self.TargetPos ~= Vector(0,0,0) and self.TargetPos_Input == 1) then //Using Target Vector Position Trace
 		//is the point within reach
 		if(self.TargetPos:Distance(self:GetPos()) < self.Range) then
 			local planeVec = self:GetUp()
@@ -422,13 +422,13 @@ function ENT:TriggerInput(iname, value)
 			//if it is an input
 			if( trace.Entity.Inputs and self.Stage == 0 ) then
 				//check the wire
-				if(self.InputName != "" and trace.Entity.Inputs[self.InputName]) then
+				if(self.InputName ~= "" and trace.Entity.Inputs[self.InputName]) then
 					//color it green
 					self:SetColor(Color(0,255,0,StartColor.a))
 					DefaultToStartColor = false
 					self.Success = 2
 					//check for the goahead to wire
-					if(self.WireFire != 0 and self.PreviousWireFire == 0) then
+					if(self.WireFire ~= 0 and self.PreviousWireFire == 0) then
 						//start the wire
 						Wire_Link_Start(self.pl:UniqueID(), trace.Entity, trace.Entity:WorldToLocal(trace.HitPos), self.InputName, self.WireMaterial, self.WireColor, self.WireWidth)
 						self.Stage = 1
@@ -445,13 +445,13 @@ function ENT:TriggerInput(iname, value)
 			//if it is an output
 			elseif( trace.Entity.Outputs and self.Stage == 1 ) then
 				//check the wire
-				if(self.OutputName != "" and trace.Entity.Outputs[self.OutputName]) then
+				if(self.OutputName ~= "" and trace.Entity.Outputs[self.OutputName]) then
 					//color it green
 					self:SetColor(Color(0,255,0,StartColor.a))
 					DefaultToStartColor = false
 					self.Success = 2
 					//check for the goahead to wire
-					if(self.WireFire != 0 and self.PreviousWireFire == 0) then
+					if(self.WireFire ~= 0 and self.PreviousWireFire == 0) then
 						//end the wire
 						Wire_Link_End(self.pl:UniqueID(), trace.Entity, trace.Entity:WorldToLocal(trace.HitPos), self.OutputName, self.pl)
 						self.Stage = 0
@@ -468,7 +468,7 @@ function ENT:TriggerInput(iname, value)
 			end
 			
 			//create a wirelink
-			if(self.CreateWirelink != 0 and self.PreviousCreateWirelink == 0 and !trace.Entity.extended) then
+			if(self.CreateWirelink ~= 0 and self.PreviousCreateWirelink == 0 and !trace.Entity.extended) then
 				trace.Entity.extended = true
 				RefreshSpecialOutputs(trace.Entity)
 				//effect on creation of wirelink
@@ -487,7 +487,7 @@ function ENT:TriggerInput(iname, value)
 		end
 		
 		//create a wire node for "Preaty Wiring"
-		if(trace.Entity:IsValid() and !trace.Entity:IsWorld() and self.Stage == 1 and self.WireFire != 0 and self.PreviousWireFire == 0 and getOwner(self, trace.Entity) == self.pl) then
+		if(trace.Entity:IsValid() and !trace.Entity:IsWorld() and self.Stage == 1 and self.WireFire ~= 0 and self.PreviousWireFire == 0 and getOwner(self, trace.Entity) == self.pl) then
 					//effect on node
 					local effectdata = EffectData()
 						effectdata:SetOrigin( trace.HitPos )
@@ -527,7 +527,7 @@ function ENT:TriggerInput(iname, value)
 			util.Effect( "Sparks", effectdata )
 		elseif(self.Stage == 0)then
 			if(trace.Hit and trace.Entity:IsValid() and (IsWire(trace.Entity) == true) and getOwner(self, trace.Entity) == self.pl
-				and trace.Entity.Inputs and self.InputName != "" and trace.Entity.Inputs[self.InputName]
+				and trace.Entity.Inputs and self.InputName ~= "" and trace.Entity.Inputs[self.InputName]
 				and	trace.Entity.Inputs[self.InputName].Src  and trace.Entity.Inputs[self.InputName].Src:IsValid()) then
 				
 				Wire_Link_Clear(trace.Entity, self.InputName)
@@ -551,7 +551,7 @@ function ENT:TriggerInput(iname, value)
 		//if it is wire, owned by you, and a valid entity
 		if(trace.Entity:IsValid() and getOwner(self, trace.Entity) == self.pl) then
 			//get inputs
-			if(trace.Entity.Inputs != nil) then
+			if(trace.Entity.Inputs ~= nil) then
 				for Index,value in pairs(trace.Entity.Inputs) do
 					Inputs = Inputs .. tostring(Index) .. ", "
 				end
@@ -559,7 +559,7 @@ function ENT:TriggerInput(iname, value)
 			end
 			
 			//get outputs
-			if(trace.Entity.Outputs != nil) then
+			if(trace.Entity.Outputs ~= nil) then
 				for Index,value in pairs(trace.Entity.Outputs) do
 					Outputs = Outputs .. tostring(Index) .. ", "
 				end

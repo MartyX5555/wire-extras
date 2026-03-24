@@ -21,7 +21,7 @@ TOOL.ClientConVar["widname"] = ""
 TOOL.ClientConVar["themename"] = ""
 
 function TOOL:LeftClick( trace )
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 	if (CLIENT) then return true end
 	
 	local widName = self:GetClientInfo("widname")
@@ -36,7 +36,7 @@ function TOOL:LeftClick( trace )
 end
 
 function TOOL:RightClick( trace )
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 	if (CLIENT) then return true end
 	
 	local themeName = self:GetClientInfo("themename")

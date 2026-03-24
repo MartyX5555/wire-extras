@@ -78,7 +78,7 @@ end
 
 function TOOL:Think()
 	local m = self:GetClientInfo("model")
-	if not IsValid(self.GhostEntity) or self.GhostEntity:GetModel() != m then
+	if not IsValid(self.GhostEntity) or self.GhostEntity:GetModel() ~= m then
 		self:MakeGhostEntity(m, Vector(0,0,0), Angle(0,0,0))
 	end
 

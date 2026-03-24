@@ -99,7 +99,7 @@ function ENT:HUDSetup(showinhud, huddesc, hudaddname, hudshowvalue, hudstyle, al
 
 	local ply = self:GetPlayer()
 	// If user updates with the STool to take indicator off of HUD
-	if (!showinhud && self.ShowInHUD) then
+	if (!showinhud and self.ShowInHUD) then
 		self:UnRegisterPlayer(ply)
 
 		// Adjust inputs back to normal
@@ -107,7 +107,7 @@ function ENT:HUDSetup(showinhud, huddesc, hudaddname, hudshowvalue, hudstyle, al
 	elseif (showinhud) then
 		// Basic style is useless without a value
 		// to show so set a default if necessary
-		if (hudstyle == 0 && hudshowvalue == 0) then
+		if (hudstyle == 0 and hudshowvalue == 0) then
 			hudshowvalue = 1
 		end
 
@@ -197,7 +197,7 @@ function ENT:HUDSetup(showinhud, huddesc, hudaddname, hudshowvalue, hudstyle, al
 		Msg("[WW] Adv. HUD::Flags auto-translated to '0' from 'false'\n")
 	end
 
-	if( flags != nil ) then
+	if( flags ~= nil ) then
 		if( bit.band( flags, flag_worldcoords ) == flag_worldcoords ) then
 
 			//--Determine if we're using vector iniputs...--//
@@ -258,7 +258,7 @@ function ENT:HUDSetup(showinhud, huddesc, hudaddname, hudshowvalue, hudstyle, al
 
 
 	//-- If we are drawing a 2-point object, then
-	if( self.HUDStyle > 199 && self.HUDStyle < 999 ) then
+	if( self.HUDStyle > 199 and self.HUDStyle < 999 ) then
 
 		//-- If we're drawing in 3D mode... --//
 		if( bit.band( flags, 1 ) == 1 ) then
@@ -476,14 +476,14 @@ end
 
 // Is this player registered?
 function ENT:CheckRegister(ply)
-	return self.RegisteredPlayers[ply:UniqueID()] != nil
+	return self.RegisteredPlayers[ply:UniqueID()] ~= nil
 end
 
 // Is this player registered only because he is in a linked pod?
 function ENT:CheckPodOnly(ply)
 	if IsValid(ply) then
 		local plyuid = ply:UniqueID()
-		return self.RegisteredPlayers[plyuid] != nil && self.RegisteredPlayers[plyuid].podonly
+		return self.RegisteredPlayers[plyuid] ~= nil and self.RegisteredPlayers[plyuid].podonly
 	end
 	return false
 end
@@ -582,7 +582,7 @@ function ENT:TriggerInput(iname, value)
 		//-- Iterate the players table and update them all --//
 		for index,rplayer in pairs(self.RegisteredPlayers) do
 			if IsValid(rplayer.ply) then
-				if (rplayer.ply != pl || (self.ShowInHUD || self.PodPly == pl)) then
+				if (rplayer.ply ~= pl or (self.ShowInHUD or self.PodPly == pl)) then
 					//--Build a new usermessage to update the position
 					net.Start("AdvHUDIndicator_STRING")
 						net.WriteInt(self:EntIndex(), 16)	//--Entity inded
@@ -644,7 +644,7 @@ function ENT:TriggerInput(iname, value)
 		//-- Iterate the players table and update them all --//
 		for index,rplayer in pairs(self.RegisteredPlayers) do
 			if IsValid(rplayer.ply) then
-				if (rplayer.ply != pl || (self.ShowInHUD || self.PodPly == pl)) then
+				if (rplayer.ply ~= pl or (self.ShowInHUD or self.PodPly == pl)) then
 					//--Build a new usermessage to update the position
 					net.Start("AdvHUDIndicator_EXIO")
 						net.WriteInt(self:EntIndex(), 16)	//--Entity index
@@ -669,7 +669,7 @@ function ENT:TriggerInput(iname, value)
 
 			for index,rplayer in pairs(self.RegisteredPlayers) do
 				if IsValid(rplayer.ply) then
-					if (rplayer.ply != pl || (self.ShowInHUD || self.PodPly == pl)) then
+					if (rplayer.ply ~= pl or (self.ShowInHUD or self.PodPly == pl)) then
 						//--Build a new usermessage to update the position
 						net.Start("AdvHUDIndicatorUpdate3DPositionTwo")
 							net.WriteInt(self:EntIndex(), 16)	//--Entity index
@@ -686,7 +686,7 @@ function ENT:TriggerInput(iname, value)
 
 			for index,rplayer in pairs(self.RegisteredPlayers) do
 				if IsValid(rplayer.ply) then
-					if (rplayer.ply != pl || (self.ShowInHUD || self.PodPly == pl)) then
+					if (rplayer.ply ~= pl or (self.ShowInHUD or self.PodPly == pl)) then
 						//--Build a new usermessage to update the position
 						net.Start("AdvHUDIndicatorUpdatePositionTwo")
 							net.WriteInt(self:EntIndex(), 16)	//--Entity index
@@ -704,7 +704,7 @@ function ENT:TriggerInput(iname, value)
 
 			for index,rplayer in pairs(self.RegisteredPlayers) do
 				if IsValid(rplayer.ply) then
-					if (rplayer.ply != pl || (self.ShowInHUD || self.PodPly == pl)) then
+					if (rplayer.ply ~= pl or (self.ShowInHUD or self.PodPly == pl)) then
 						//--Build a new usermessage to update the position
 						net.Start("AdvHUDIndicatorUpdate3DPosition")
 							net.WriteInt(self:EntIndex(), 16)	//--Entity index
@@ -722,7 +722,7 @@ function ENT:TriggerInput(iname, value)
 
 			for index,rplayer in pairs(self.RegisteredPlayers) do
 				if IsValid(rplayer.ply) then
-					if (rplayer.ply != pl || (self.ShowInHUD || self.PodPly == pl)) then
+					if (rplayer.ply ~= pl or (self.ShowInHUD or self.PodPly == pl)) then
 						//--Build a new usermessage to update the position
 						net.Start("AdvHUDIndicatorUpdatePosition")
 							net.WriteInt(self:EntIndex(), 16)	//--Entity index
@@ -753,7 +753,7 @@ function ENT:ShowOutput(factor, value)
 		// RecipientFilter will contain all registered players
 		for index,rplayer in pairs(self.RegisteredPlayers) do
 			if IsValid(rplayer.ply) then
-				if (rplayer.ply != pl || (self.ShowInHUD || self.PodPly == pl)) then
+				if (rplayer.ply ~= pl or (self.ShowInHUD or self.PodPly == pl)) then
 					rf:AddPlayer(rplayer.ply)
 				end
 			else
@@ -776,7 +776,7 @@ function ENT:SendHUDInfo(hidehud)
 
 	for index,rplayer in pairs(self.RegisteredPlayers) do
 		if IsValid(rplayer.ply) then
-			if (rplayer.ply != pl || (self.ShowInHUD || self.PodPly == pl)) then
+			if (rplayer.ply ~= pl or (self.ShowInHUD or self.PodPly == pl)) then
 				net.Start("AdvHUDIndicatorHideHUD")
 					net.WriteInt(self:EntIndex(), 16)
 					// Check player's preference
@@ -837,7 +837,7 @@ function ENT:Think()
 	if IsValid(self.Pod) then
 		local ply = nil
 
-		if !IsValid(self.PodPly) or self.PodPly:GetVehicle() != self.Pod then
+		if !IsValid(self.PodPly) or self.PodPly:GetVehicle() ~= self.Pod then
 			for k,v in pairs(player.GetAll()) do
 				if (v:GetVehicle() == self.Pod) then
 					ply = v
@@ -849,7 +849,7 @@ function ENT:Think()
 		end
 
 		// Has the player changed?
-		if (ply != self.PodPly) then
+		if (ply ~= self.PodPly) then
 			if self.PodPly and self:CheckPodOnly(self.PodPly) then // Don't send umsg if player disconnected or is registered otherwise
 				self:UnRegisterPlayer(self.PodPly)
 			end

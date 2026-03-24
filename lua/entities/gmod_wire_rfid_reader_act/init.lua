@@ -39,7 +39,7 @@ function ENT:OnRemove()
 end
 
 function ENT:Setup(ent_target,col)
-	if col!=nil then self.NoColorChg=col end
+	if col~=nil then self.NoColorChg=col end
 	if !ent_target then return end
 	
 	if ent_target.RFID_READER_ACT_LINKED then -- Already have a linked filter ?

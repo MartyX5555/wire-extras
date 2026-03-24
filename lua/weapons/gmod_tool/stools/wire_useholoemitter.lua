@@ -38,7 +38,7 @@ TOOL.ClientConVar = {
 }
 
 function TOOL:RightClick( tr )
-	if( !tr.HitNonWorld || tr.Entity:GetClass() != "gmod_wire_useholoemitter" ) then return false end
+	if( !tr.HitNonWorld or tr.Entity:GetClass() ~= "gmod_wire_useholoemitter" ) then return false end
 	if CLIENT then return true end
 	
 	self.Emitter = tr.Entity
@@ -80,7 +80,7 @@ if SERVER then
 		local groundbeams = util.tobool( self:GetClientNumber( "groundbeams" ) );
 		
 		// did we hit another holoemitter?
-		if( tr.HitNonWorld && tr.Entity:GetClass() == "gmod_wire_useholoemitter" ) then
+		if( tr.HitNonWorld and tr.Entity:GetClass() == "gmod_wire_useholoemitter" ) then
 			// update it.
 			tr.Entity:SetColor( Color(r, g, b, a) );
 			
@@ -101,9 +101,9 @@ if SERVER then
 		end
 
 		// we linking?
-		if( tr.HitNonWorld && tr.Entity:IsValid() && tr.Entity:GetClass() == "gmod_wire_hologrid" ) then
+		if( tr.HitNonWorld and tr.Entity:IsValid() and tr.Entity:GetClass() == "gmod_wire_hologrid" ) then
 			// link to this point.
-			if( self.Emitter && self.Emitter:IsValid() ) then
+			if( self.Emitter and self.Emitter:IsValid() ) then
 				// link.
 				self.Emitter:LinkToGrid( tr.Entity );
 				

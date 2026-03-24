@@ -170,7 +170,7 @@ if CLIENT then
 		if not inb then inb = CSelInp end
 		if not outb then outb = CSelOut end
 		if not (inb and inb:IsValid() and outb and outb:IsValid()) then return end
-		if inb.Port.Type != outb.Port.Type then
+		if inb.Port.Type ~= outb.Port.Type then
 			inb:SetDefaultColor()
 			outb:SetDefaultColor()
 			CSelInp = nil
@@ -407,7 +407,7 @@ if CLIENT then
 		port.Entity = port.Entity or ent
 		self.Port = port
 		local tmp = port.Name
-		if port.Type != "NORMAL" then
+		if port.Type ~= "NORMAL" then
 			tmp = tmp .. " ["..port.Type.."]"
 		end
 		self:SetText(tmp)
@@ -564,7 +564,7 @@ if SERVER then
 		local inp = args[2]
 		local oent = ents.GetByIndex(args[3])
 		local out = args[4]
-		if IsValid(ent) and IsWire(ent) and inp != "" and IsValid(oent) and IsWire(oent) and out != "" then
+		if IsValid(ent) and IsWire(ent) and inp ~= "" and IsValid(oent) and IsWire(oent) and out ~= "" then
 			GUIWiring_DoWire(ply,ent,inp,oent,out)
 		end		
 	end
@@ -573,7 +573,7 @@ if SERVER then
 		if not (#args == 2 and ply:IsValid() and ply:IsPlayer()) then return end
 		local ent = ents.GetByIndex(args[1])
 		local inp = args[2]
-		if IsValid(ent) and IsWire(ent) and inp != "" then
+		if IsValid(ent) and IsWire(ent) and inp ~= "" then
 			GUIWiring_UnWire(ply,ent,inp)
 		end
 	end
@@ -622,7 +622,7 @@ function TOOL:Think() --get and transmit the info on the overlay, but only when 
 			local InputString = ""
 			for InputIdx, CurInput in pairs_sortvalues(Ent.Inputs, WireLib.PortComparator) do
 				InputString = InputString..InputIdx
-				if(CurInput.Type != "NORMAL") then
+				if(CurInput.Type ~= "NORMAL") then
 					InputString = InputString.." ["..CurInput.Type.."]"
 				end
 				if(CurInput.Src and CurInput.Src:IsValid()) then -- check whether the input is wired up or not
@@ -632,12 +632,12 @@ function TOOL:Think() --get and transmit the info on the overlay, but only when 
 				end
 			end
 			
-			if(InputString != LastOverBoxInput) then
+			if(InputString ~= LastOverBoxInput) then
 				self:GetWeapon():SetNWString("WireDebugOverlayInputs", InputString)
 				LastOverBoxInput = InputString
 			end
 		else
-			if(LastOverBoxInput != "") then
+			if(LastOverBoxInput ~= "") then
 				LastOverBoxInput = ""
 				self:GetWeapon():SetNWString("WireDebugOverlayInputs", "")
 			end
@@ -648,29 +648,29 @@ function TOOL:Think() --get and transmit the info on the overlay, but only when 
 			local OutputString = ""
 			for OutputIdx, CurOutput in pairs_sortvalues(Ent.Outputs, WireLib.PortComparator) do
 				OutputString = OutputString..OutputIdx
-				if(CurOutput.Type != "NORMAL") then
+				if(CurOutput.Type ~= "NORMAL") then
 					OutputString = OutputString.." ["..CurOutput.Type.."]"
 				end
 				OutputString = OutputString.."\n"
 			end
 			
-			if(OutputString != LastOverBoxOutput) then
+			if(OutputString ~= LastOverBoxOutput) then
 				self:GetWeapon():SetNWString("WireDebugOverlayOutputs", OutputString)
 				LastOverBoxOutput = OutputString
 			end
 		else
-			if(LastOverBoxOutput != "") then
+			if(LastOverBoxOutput ~= "") then
 				LastOverBoxOutput = ""
 				self:GetWeapon():SetNWString("WireDebugOverlayOutputs", "")
 			end
 		end
 	else
-		if(LastOverBoxInput != "") then
+		if(LastOverBoxInput ~= "") then
 			LastOverBoxInput = ""
 			self:GetWeapon():SetNWString("WireDebugOverlayInputs", "")
 		end
 		
-		if(LastOverBoxOutput != "") then
+		if(LastOverBoxOutput ~= "") then
 			LastOverBoxOutput = ""
 			self:GetWeapon():SetNWString("WireDebugOverlayOutputs", "")
 		end
@@ -684,7 +684,7 @@ if CLIENT then
 		local InputText = self:GetWeapon():GetNWString("WireDebugOverlayInputs") or ""
 		local OutputText = self:GetWeapon():GetNWString("WireDebugOverlayOutputs") or ""
 		
-		if(InputText != "") then
+		if(InputText ~= "") then
 			surface.SetFont("Trebuchet24")
 			local Inputs = string.Explode("\n",InputText)
 			local InputsUsed = {}
@@ -726,7 +726,7 @@ if CLIENT then
 			
 		end
 		
-		if(OutputText != "") then
+		if(OutputText ~= "") then
 			surface.SetFont("Trebuchet24")
 			local Outputs = string.Explode("\n",OutputText)
 			

@@ -162,7 +162,7 @@ function TOOL:UpdateGhostWireWiredWirer( ent, player )
 	local trace 	= util.TraceLine( tr )
 	if (!trace.Hit) then return end
 
-	if (trace.Entity && trace.Entity:GetClass() == "gmod_wire_wirer" || trace.Entity:IsPlayer()) then
+	if (trace.Entity and trace.Entity:GetClass() == "gmod_wire_wirer" or trace.Entity:IsPlayer()) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -179,7 +179,7 @@ end
 
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self:GetClientInfo("Model") ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self:GetClientInfo("Model") ) then
 		self:MakeGhostEntity( self:GetClientInfo("Model"), Vector(0,0,0), Angle(0,0,0) )
 	end
 

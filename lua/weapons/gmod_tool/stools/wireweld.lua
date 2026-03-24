@@ -23,10 +23,10 @@ end
 
 function TOOL:LeftClick( trace )
 
-	if ((trace.Entity:IsValid() && trace.Entity:IsPlayer()) or trace.Entity:IsWorld()) then return false end
+	if ((trace.Entity:IsValid() and trace.Entity:IsPlayer()) or trace.Entity:IsWorld()) then return false end
 	
 	// If there's no physics object then we can't constraint it!
-	if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
+	if ( SERVER and !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
 
 	local iNum = self:NumObjects()
 	local Phys = trace.Entity:GetPhysicsObjectNum( trace.PhysicsBone )
@@ -85,7 +85,7 @@ end
 
 function TOOL:Reload( trace )
 
-	if (!trace.Entity:IsValid() || trace.Entity:IsPlayer() ) then return false end
+	if (!trace.Entity:IsValid() or trace.Entity:IsPlayer() ) then return false end
 	if ( CLIENT ) then return true end
 	
 	local  bool = constraint.RemoveConstraints( trace.Entity, "Weld" )

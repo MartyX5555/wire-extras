@@ -4,8 +4,8 @@ function string.instr(stringIn, toFind, start)
 	local i = 1
 	local start = start or 1
 	
-	if (stringIn == "" || type(stringIn) != "string") then return -2 end
-	if (toFind == "" || type(toFind) != "string") then return -2 end
+	if (stringIn == "" or type(stringIn) ~= "string") then return -2 end
+	if (toFind == "" or type(toFind) ~= "string") then return -2 end
 	
 	local stringLength = string.len(stringIn)
 	local findLength = string.len(toFind)
@@ -38,7 +38,7 @@ GateActions["string_switchgate"] = {
 		if (Num == 6) then return F end
 		if (Num == 7) then return G end
 		if (Num == 8) then return H end
-		if (Num < 1 || Num > 8) then return "" end
+		if (Num < 1 or Num > 8) then return "" end
 	end,
 	label = function(Out, A, B, C, D, E, F, G, H, Num)
 		return ("Selected: "..Out.Out)
@@ -76,7 +76,7 @@ GateActions["string_hispeed_convert"] = {
 		return "String: "..String.."\nReadAddr:"..AddrRead.." = "..Out
 	end,
 	ReadCell = function(dummy,gate,Address)
-		if (Address < 0) || ((Address-1) >= gate.LatchSize) then
+		if (Address < 0) or ((Address-1) >= gate.LatchSize) then
 			return 0
 		else
 			if (Address == 0) then
@@ -113,7 +113,7 @@ GateActions["advduperam"] = {
 		end
 		
 		if (Clk > 0) then
-			if (Data != "" && string.sub(Data,1,5) == "Data:" && (gate.AddrWrite != gate.AddrRead || gate.Sending == 0)) then
+			if (Data ~= "" and string.sub(Data,1,5) == "Data:" and (gate.AddrWrite ~= gate.AddrRead or gate.Sending == 0)) then
 				if (string.sub(Data,6,10) == "Start") then
 					gate.Store[gate.AddrWrite] = {}
 					gate.Store[gate.AddrWrite].List = {}
@@ -135,7 +135,7 @@ GateActions["advduperam"] = {
 			end
 		end
 		
-		if (DeltaTime >= 0.1 && gate.Sending == 1) then
+		if (DeltaTime >= 0.1 and gate.Sending == 1) then
 			gate.SendBlockNum = gate.SendBlockNum + 1
 			gate.PrevTime = CurTime()
 			if (gate.SendBlockNum == gate.Store[gate.AddrRead].BlockCount) then
@@ -146,8 +146,8 @@ GateActions["advduperam"] = {
 		if (gate.Sending == 0) then
 			if (Send > 0) then
 				Msg("Send Called\n")
-				if (gate.Store[gate.AddrRead] && (gate.Receiving == 0 || gate.AddrRead != gate.AddrWrite)) then
-					if (gate.Store[gate.AddrRead].List && gate.Store[gate.AddrRead].BlockCount > 0) then
+				if (gate.Store[gate.AddrRead] and (gate.Receiving == 0 or gate.AddrRead ~= gate.AddrWrite)) then
+					if (gate.Store[gate.AddrRead].List and gate.Store[gate.AddrRead].BlockCount > 0) then
 						gate.Sending = 1
 						gate.SendBlockNum = -2
 						gate.PrevTime = 0
@@ -155,7 +155,7 @@ GateActions["advduperam"] = {
 				end
 			end
 		
-			if (gate.Receiving == 1 && AddrRead == gate.AddrWrite) then
+			if (gate.Receiving == 1 and AddrRead == gate.AddrWrite) then
 				return "",0,0,1
 			else
 				if (gate.Store[AddrRead]) then

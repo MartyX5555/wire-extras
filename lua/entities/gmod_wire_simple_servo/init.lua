@@ -32,7 +32,7 @@ function ENT:TriggerInput(iname, value)
 	if (iname == "Angle") then
 	   self.Angle = value%360;
 	elseif (iname == "Speed") then
-	   if(value>=0&&value<360)then
+	   if(value>=0 and value < 360)then
 	       self.Speed = value
 	   end
 	end
@@ -47,15 +47,15 @@ function ENT:Think()
     
     local finalAngle = 0
     
-    if(Angles.y != self.Angle)then
+    if(Angles.y ~= self.Angle)then
         if(Angles.y < self.Angle)then
-            if((self.Angle-Angles.y < self.Speed)||(self.Speed == 0))then
+            if((self.Angle-Angles.y < self.Speed)or(self.Speed == 0))then
                 finalAngle = self.Angle
             else
                 finalAngle = Angles.y+self.Speed
             end
         else
-            if((Angles.y-self.Angle < self.Speed)||(self.Speed == 0))then
+            if((Angles.y-self.Angle < self.Speed)or(self.Speed == 0))then
                 finalAngle = self.Angle
             else
                 finalAngle = Angles.y-self.Speed

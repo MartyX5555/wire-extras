@@ -52,7 +52,7 @@ function TOOL:LeftClick( trace )
 	if (trace.Entity:IsValid()) and (trace.Entity:IsPlayer()) then return end
 
 	// If there's no physics object then we can't constraint it!
-	--if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end  -- You don't need this for wiring! -Grocel
+	--if ( SERVER and !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end  -- You don't need this for wiring! -Grocel
 
 	local stage = self:GetStage()
 
@@ -121,7 +121,7 @@ function TOOL:LeftClick( trace )
 					txt = txt.." ("..self.OutputsDesc[self.CurrentOutput]..")"
 				end
 				if self.OutputsType and self.OutputsType[self.CurrentOutput]
-				and (self.OutputsType[self.CurrentOutput] != "NORMAL") then
+				and (self.OutputsType[self.CurrentOutput] ~= "NORMAL") then
 					txt = txt.." ["..self.OutputsType[self.CurrentOutput].."]"
 				end
 				self:GetWeapon():SetNWString("WireCurrentInput", txt)
@@ -190,7 +190,7 @@ function TOOL:RightClick( trace )
 	local stage = self:GetStage()
 
 	// If there's no physics object then we can't constraint it!
-	--if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end  -- You don't need this for wiring! -Grocel
+	--if ( SERVER and !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end  -- You don't need this for wiring! -Grocel
 
 	if (stage == 0) then
 		if (CLIENT) then return end
@@ -234,7 +234,7 @@ function TOOL:RightClick( trace )
 				txt = txt.." ("..self.InputsDesc[self.CurrentInput]..")"
 			end
 			if self.InputsType and self.InputsType[self.CurrentInput]
-			and (self.InputsType[self.CurrentInput] != "NORMAL") then
+			and (self.InputsType[self.CurrentInput] ~= "NORMAL") then
 				txt = txt.." ["..self.InputsType[self.CurrentInput].."]"
 			end
 			self:GetWeapon():SetNWString("WireCurrentInput", txt)
@@ -264,7 +264,7 @@ function TOOL:RightClick( trace )
 				txt = txt.." ("..self.OutputsDesc[self.CurrentOutput]..")"
 			end
 			if self.OutputsType and self.OutputsType[self.CurrentOutput]
-			and self.OutputsType[self.CurrentOutput] != "NORMAL" then
+			and self.OutputsType[self.CurrentOutput] ~= "NORMAL" then
 				txt = txt.." ["..self.OutputsType[self.CurrentOutput].."]"
 			end
 			self:GetWeapon():SetNWString("WireCurrentInput", txt)
@@ -495,7 +495,7 @@ function TOOL:SelectComponent(ent)
 		txt = txt.." ("..self.InputsDesc[self.CurrentInput]..")"
 	end
 	if self.InputsType and self.InputsType[self.CurrentInput]
-	and (self.InputsType[self.CurrentInput] != "NORMAL") then
+	and (self.InputsType[self.CurrentInput] ~= "NORMAL") then
 		txt = txt.." ["..self.InputsType[self.CurrentInput].."]"
 	end
 	self:GetWeapon():SetNWString("WireCurrentInput", txt)

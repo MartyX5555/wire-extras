@@ -36,7 +36,7 @@ function TOOL:LeftClick( trace )
 
 	local ply = self:GetOwner()
 
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_field_device" && trace.Entity:GetTable().pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_field_device" and trace.Entity:GetTable().pl == ply ) then
 		return true
 	end
 
@@ -45,7 +45,7 @@ function TOOL:LeftClick( trace )
 	local Ang = trace.HitNormal:Angle()
 	Ang.pitch = Ang.pitch + 90
 
-	local lType=self:GetClientInfo( "type" );
+	local lType = self:GetClientInfo( "type" );
 
 	if string.len( lType ) < 2 then ply:SendHint( "field_type" , 0 ) return false end
 
@@ -109,12 +109,12 @@ if (SERVER) then
 end
 
 function TOOL:UpdateGhostgmod_wire_field_device( ent, player )
-	if ( !ent || !ent:IsValid() ) then return end
+	if ( !ent or !ent:IsValid() ) then return end
 
 	local tr 	= util.GetPlayerTrace( player, player:GetAimVector() )
 	local trace 	= util.TraceLine( tr )
 
-	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_wire_field_device" ) then
+	if (!trace.Hit or trace.Entity:IsPlayer() or trace.Entity:GetClass() == "gmod_wire_field_device" ) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -130,7 +130,7 @@ function TOOL:UpdateGhostgmod_wire_field_device( ent, player )
 end
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self.Model ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self.Model ) then
 		self:MakeGhostEntity( self:GetClientInfo("Model"), Vector(0,0,0), Angle(0,0,0) )
 	end
 

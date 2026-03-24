@@ -35,10 +35,10 @@ cleanup.Register( "wire_magnets" )
 
 function TOOL:LeftClick( trace )
 
-	if ( trace.Entity && trace.Entity:IsPlayer() ) then return false end
+	if ( trace.Entity and trace.Entity:IsPlayer() ) then return false end
 	
 	// If there's no physics object then we can't constraint it!
-	if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
+	if ( SERVER and !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
 	
 	if (CLIENT) then return true end
 	
@@ -52,7 +52,7 @@ function TOOL:LeftClick( trace )
 	
 
 	//update
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_realmagnet") then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_realmagnet") then
 	
 		
 		trace.Entity:SetModel(self.ClientConVar[ "model" ]) 
@@ -198,12 +198,12 @@ end
 
 function TOOL:UpdateGhostWireMagnet( ent, player )
 
-	if ( !ent || !ent:IsValid() ) then return end
+	if ( !ent or !ent:IsValid() ) then return end
 	
 	local tr 	= util.GetPlayerTrace( player, player:GetAimVector() )
 	local trace 	= util.TraceLine( tr )
 	
-	if (!trace.Hit || trace.Entity:IsPlayer() ) then 
+	if (!trace.Hit or trace.Entity:IsPlayer() ) then 
 		ent:SetNoDraw( true )
 		return
 	end
@@ -224,7 +224,7 @@ end
 
 function TOOL:Think()
 	
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || string.lower(self.GhostEntity:GetModel()) != string.lower(self.ClientConVar[ "model" ])) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or string.lower(self.GhostEntity:GetModel()) ~= string.lower(self.ClientConVar[ "model" ])) then
 		
 		local _model = self.ClientConVar[ "model" ]
 		if (!_model) then return end

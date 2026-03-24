@@ -35,7 +35,7 @@ function TOOL:LeftClick( trace )
 	angle.pitch = angle.pitch + 90
 
 	-- If we've clicked an already active SENT...
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_hud_indicator_2" && trace.Entity.pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_hud_indicator_2" and trace.Entity.pl == ply ) then
 		ent = trace.Entity
 		-- Update code here! FIXME!
 	else
@@ -100,7 +100,7 @@ function TOOL:RightClick( trace )
 	if trace.Entity:IsPlayer() then return false end
 	local player = self:GetOwner()
 
-	if (trace.Entity && trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_hud_indicator_2") then
+	if (trace.Entity and trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_hud_indicator_2") then
 		local sent = trace.Entity
 		sent:ToggleHooked( player )
 		return true
@@ -112,7 +112,7 @@ end
 // Hook HUD Indicator to vehicle
 function TOOL:Reload( trace )
 
-	if (!trace.Entity || !trace.Entity:IsValid()) then return false end
+	if (!trace.Entity or !trace.Entity:IsValid()) then return false end
 	if trace.Entity:IsPlayer() then return false end
 
 	if (CLIENT) then return true end
@@ -120,7 +120,7 @@ function TOOL:Reload( trace )
 	local iNum = self:NumObjects()
 
 	if (iNum == 0) then
-		if (trace.Entity:GetClass() != "gmod_wire_hud_indicator_2") then
+		if (trace.Entity:GetClass() ~= "gmod_wire_hud_indicator_2") then
 			WireLib.AddNotify(self:GetOwner(), "You must select a HUD Indicator to link first.", NOTIFY_GENERIC, 7)
 			return false
 		end
@@ -129,7 +129,7 @@ function TOOL:Reload( trace )
 		self:SetObject( 1, trace.Entity, trace.HitPos, Phys, trace.PhysicsBone, trace.HitNormal )
 		self:SetStage(1)
 	elseif (iNum == 1) then
-		if (trace.Entity != self:GetEnt(1)) then
+		if (trace.Entity ~= self:GetEnt(1)) then
 			if (!string.find(trace.Entity:GetClass(), "prop_vehicle_")) then
 				WireLib.AddNotify(self:GetOwner(), "HUD Indicators can only be linked to vehicles.", NOTIFY_GENERIC, 7)
 				self:ClearObjects()

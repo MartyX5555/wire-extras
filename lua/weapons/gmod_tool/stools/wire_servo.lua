@@ -36,8 +36,8 @@ cleanup.Register( "wire_servos" )
    Places a servo
 ---------------------------------------------------------*/
 function TOOL:LeftClick( trace )
-	if ( trace.Entity && trace.Entity:IsPlayer() ) then return false end
-	if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
+	if ( trace.Entity and trace.Entity:IsPlayer() ) then return false end
+	if ( SERVER and !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
 	if (CLIENT) then return true end
 	
 	local ply = self:GetOwner()
@@ -115,14 +115,14 @@ end
 ---------------------------------------------------------*/
 function TOOL:RightClick( trace )
 
-	if ( trace.Entity && trace.Entity:GetClass() != "gmod_wire_servo" ) then return false end
+	if ( trace.Entity and trace.Entity:GetClass() ~= "gmod_wire_servo" ) then return false end
 	if (CLIENT) then return true end
 	
 	local servoEnt = trace.Entity
 	
 	// Only change your own servos..
-	if ( servoEnt:GetTable():GetPlayer():IsValid() && 
-	     servoEnt:GetTable():GetPlayer() != self:GetOwner() ) then 
+	if ( servoEnt:GetTable():GetPlayer():IsValid() and 
+	     servoEnt:GetTable():GetPlayer() ~= self:GetOwner() ) then 
 		 
 		 return false 
 		 
@@ -130,7 +130,7 @@ function TOOL:RightClick( trace )
 
 	// Get client's CVars
 	local torque		= self:GetClientNumber( "torque" )
-	local toggle		= self:GetClientNumber( "toggle" ) != 0
+	local toggle		= self:GetClientNumber( "toggle" ) ~= 0
 		
 	servoEnt:SetTorque( torque )
 	servoEnt:UpdateOverlayText()
@@ -212,7 +212,7 @@ end
 ---------------------------------------------------------*/
 function TOOL:Think()
 
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self:GetOwner():GetInfo( "wheel_model" )) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self:GetOwner():GetInfo( "wheel_model" )) then
 		self.servoAngle = Angle( tonumber(self:GetOwner():GetInfo( "wheel_rx" )), tonumber(self:GetOwner():GetInfo( "wheel_ry" )), tonumber(self:GetOwner():GetInfo( "wheel_rz" )) )
 		self:MakeGhostEntity( self:GetOwner():GetInfo( "wheel_model" ), Vector(0,0,0), Angle(0,0,0) )
 	end

@@ -56,7 +56,7 @@ function ENT:Draw( )
 	
 	// read emitter.
 	local emitter = self:GetNWEntity( "grid" );
-	if( !emitter || !emitter:IsValid() ) then return; end
+	if( !emitter or !emitter:IsValid() ) then return; end
 	
 	// calculate emitter position.
 	local fwd 	= emitter:GetForward();
@@ -182,7 +182,7 @@ local function HSHoloPressCheck( ply, key )
 							AbsAng = TempPos:Angle()
 							PitchDiff = math.abs(AbsAng.p - ply_EyeAng.p)
 							YawDiff = math.abs(AbsAng.y - ply_EyeAng.y)
-							if (YawDiff <= 5 && PitchDiff <= 5) then
+							if (YawDiff <= 5 and PitchDiff <= 5) then
 								ShortestDistance = AbsDist
 								LastNum = i
 								LastEnt = v:EntIndex()

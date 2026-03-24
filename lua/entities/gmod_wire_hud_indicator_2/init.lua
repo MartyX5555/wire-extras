@@ -207,7 +207,7 @@ function ENT:RegisterPlayer( player, dataTable )
 		net.WriteInt( self:EntIndex() , 16)
 	net.Send(player)
 
-	if( self.LoadedCode != "" ) then
+	if( self.LoadedCode ~= "" ) then
 		--Generate a send buffer for the code to download...
 		codeBuffer = { 	table = dataTable or HMLParser:new( self.LoadedCode ):exec(),
 						eindex = self:EntIndex() }
@@ -279,7 +279,7 @@ function ENT:Think()
 				
 			else
 				--Check if the player has changed... (includes just getting out!)
-				if( self.podPlayer != driver ) then
+				if( self.podPlayer ~= driver ) then
 					print("", "", "Player change!!", tostring(self.podPlayer), tostring(driver) )
 					
 					self:RegisterPlayer( driver )
@@ -296,7 +296,7 @@ function ENT:Think()
 		end
 	else
 		--The pod's gone! But someone was in it! Unlink!
-		if self.podPlayer != player and self.podPlayer then self.UnregisterPlayer( self.podPlayer ) end
+		if self.podPlayer ~= player and self.podPlayer then self.UnregisterPlayer( self.podPlayer ) end
 
 	end
 
@@ -317,10 +317,10 @@ function ENT:TriggerInput(iname, value)
 	local VECTOR4 = 6
 	
 	//-- If we have this input (should always, but incase weirdness happens... --//
-	if( self.inputLookup[iname] != nil ) then
+	if( self.inputLookup[iname] ~= nil ) then
 
 		//-- Only update the table and the clients if stuff changes! else UBER LAG! --//
-		if ( self.inputLookup[iname].value != value ) then
+		if ( self.inputLookup[iname].value ~= value ) then
 			self.inputLookup[iname].value = value
 
 			//-- Iterate the players table and update them all --//

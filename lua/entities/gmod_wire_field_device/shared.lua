@@ -2,7 +2,7 @@
 ENT.Type 		= "anim"
 ENT.Base 		= "base_wire_entity"
 
-ENT.PrintName	= ""
+ENT.PrintName	= "Field Generator"
 ENT.Author		= ""
 ENT.Contact		= ""
 

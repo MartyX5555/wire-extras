@@ -1,6 +1,6 @@
 -- Helper function (copied from wire/welcome_menu.lua)
 local function filterversion( version )
-	if (type(version) == "number") then return version elseif (type(version) != "string") then return 0 end
+	if (type(version) == "number") then return version elseif (type(version) ~= "string") then return 0 end
 	version = version:gsub( "[^%d]+", "" )
 	return tonumber(version) or 0
 end

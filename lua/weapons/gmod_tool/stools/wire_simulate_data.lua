@@ -33,18 +33,18 @@ local function PrintError( player, arg1, arg2, arg3, arg4 )
 end
 
 function TOOL:LeftClick( trace )
-	if !trace.Entity:IsValid() || trace.Entity:IsPlayer() || trace.Entity:IsWorld() then return false end
-	if (self.CurrentInput && trace.Entity.Inputs[self.CurrentInput].Type) then
+	if !trace.Entity:IsValid() or trace.Entity:IsPlayer() or trace.Entity:IsWorld() then return false end
+	if (self.CurrentInput and trace.Entity.Inputs[self.CurrentInput].Type) then
 		local player = self:GetOwner()
 		local type	= self:GetClientInfo("type")
 		local data = nil
 		if self:GetClientNumber("auto")==1 then type=trace.Entity.Inputs[self.CurrentInput].Type end
-		if type!=trace.Entity.Inputs[self.CurrentInput].Type then return false end
+		if type~=trace.Entity.Inputs[self.CurrentInput].Type then return false end
 		if type=="NORMAL" then data = self:GetClientNumber("number")
 		elseif type=="STRING" then  data = self:GetClientInfo("string")
-		elseif type=="VECTOR" || type=="ANGLE" then data = Vector(self:GetClientNumber("vec1"), self:GetClientNumber("vec2"), self:GetClientNumber("vec3"))
+		elseif type=="VECTOR" or type=="ANGLE" then data = Vector(self:GetClientNumber("vec1"), self:GetClientNumber("vec2"), self:GetClientNumber("vec3"))
 		elseif type=="ENTITY" then data = ents.GetByIndex(self:GetClientNumber("entity")) if !data:IsValid() then return false end
-		elseif type=="TABLE" || type=="ARRAY" then
+		elseif type=="TABLE" or type=="ARRAY" then
 			if type=="TABLE" then data = self:GetClientInfo("table") else
 			data = self:GetClientInfo("array") end
 			local texp2 = self:GetClientNumber("texp2")
@@ -55,24 +55,24 @@ function TOOL:LeftClick( trace )
 			for a, b in pairs(datatable) do
 				datatable[a] = string.gsub(datatable[a]," ", "")
 				explode  = string.Explode("=",datatable[a])
-					if #explode!=2 then PrintError(player,a,"Wrong number of arguments","","") return false end
+					if #explode~=2 then PrintError(player,a,"Wrong number of arguments","","") return false end
 					for k, v in pairs(explode) do
-						if string.Left(v,1)=="(" && string.Right(v,1)==")" then
-							if k==1 && type=="ARRAY" then PrintError(player,a,"Array only takes integer indexes, not vector","","") return false end
+						if string.Left(v,1)=="(" and string.Right(v,1)==")" then
+							if k==1 and type=="ARRAY" then PrintError(player,a,"Array only takes integer indexes, not vector","","") return false end
 							vtype = string.sub(v, 2, string.len(v)-1)
 							vtype = string.Explode(",",vtype)
-							if #vtype!=3 then PrintError(player,a,"Vector requires 3 components","","") return false end
+							if #vtype~=3 then PrintError(player,a,"Vector requires 3 components","","") return false end
 								for i=1, 3 do
-									if _G.type(tonumber(vtype[i]))!="number" then PrintError(player,a,"Vector only takes numbers as arguments","","") return false end
+									if _G.type(tonumber(vtype[i]))~="number" then PrintError(player,a,"Vector only takes numbers as arguments","","") return false end
 								end
 							explode[k] = Vector(vtype[1],vtype[2],vtype[3])
 							vtype="v"
-						elseif _G.type(tonumber(v))=="number" then vtype="n" explode[k]=tonumber(v) if k==1 && type=="ARRAY" && explode[k]>E2_MAX_ARRAY_SIZE then PrintError(player,a,"Array max limit of ",E2_MAX_ARRAY_SIZE," exceeded","","") return false end
-						else if k==1 && type=="ARRAY" then PrintError(player,a,"Array only takes integer indexes, not string","","") return false end
+						elseif _G.type(tonumber(v))=="number" then vtype="n" explode[k]=tonumber(v) if k==1 and type=="ARRAY" and explode[k]>E2_MAX_ARRAY_SIZE then PrintError(player,a,"Array max limit of ",E2_MAX_ARRAY_SIZE," exceeded","","") return false end
+						else if k==1 and type=="ARRAY" then PrintError(player,a,"Array only takes integer indexes, not string","","") return false end
 							vtype="s" explode[k]=string.gsub(v,"\'","")
 						end
 					end
-					if texp2==1 && type!="ARRAY" then
+					if texp2==1 and type~="ARRAY" then
 						if _G.type(explode[1])=="Vector" then explode[1] = vtype..explode[1][1]
 						else explode[1] = vtype..explode[1]
 						end
@@ -130,7 +130,7 @@ function TOOL:RightClick( trace )
 				txt = txt.." ("..self.InputsDesc[self.CurrentInput]..")"
 			end
 			if self.InputsType and self.InputsType[self.CurrentInput]
-			and (self.InputsType[self.CurrentInput] != "NORMAL") then
+			and (self.InputsType[self.CurrentInput] ~= "NORMAL") then
 				txt = txt.." ["..self.InputsType[self.CurrentInput].."]"
 			end
 			self:GetWeapon():SetNWString("WireCurrentInput", txt)
@@ -160,7 +160,7 @@ function TOOL:RightClick( trace )
 				txt = txt.." ("..self.OutputsDesc[self.CurrentOutput]..")"
 			end
 			if self.OutputsType and self.OutputsType[self.CurrentOutput]
-			and (self.OutputsType[self.CurrentOutput] != "NORMAL") then
+			and (self.OutputsType[self.CurrentOutput] ~= "NORMAL") then
 				txt = txt.." ["..self.OutputsType[self.CurrentOutput].."]"
 			end
 			self:GetWeapon():SetNWString("WireCurrentInput", txt)
@@ -346,7 +346,7 @@ function TOOL:SelectComponent(ent)
 		txt = txt.." ("..self.InputsDesc[self.CurrentInput]..")"
 	end
 	if self.InputsType and self.InputsType[self.CurrentInput]
-	and self.InputsType[self.CurrentInput] != "NORMAL" then
+	and self.InputsType[self.CurrentInput] ~= "NORMAL" then
 		txt = txt.." ["..self.InputsType[self.CurrentInput].."]"
 	end
 	self:GetWeapon():SetNWString("WireCurrentInput", txt)

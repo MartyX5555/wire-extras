@@ -61,7 +61,7 @@ function ENT:Setup(a,b,c,d,ca,cb,cc,cd,typ,ent_target)
 		self.filtertype=typ
 	end
 	
-	if !ent_target or ent_target:GetClass() != "gmod_wire_target_finder" then return end
+	if !ent_target or ent_target:GetClass() ~= "gmod_wire_target_finder" then return end
 	
 	if ent_target.RFID_FILTER_LINKED then -- Already have a linked filter ?
 		ent_target.RFID_FILTER_LINKED:SetLinkedTargetFinder(nil)
@@ -86,7 +86,7 @@ function ENT:Setup(a,b,c,d,ca,cb,cc,cd,typ,ent_target)
 			local bogeys,dists = {},{}
 			for _,contact in pairs(ents.FindInSphere(this.Entity:GetPos(), this.MaxRange or 10)) do
 				local class = contact:GetClass()
-				if (not this.NoTargetOwnersStuff or (class == "player") or (contact:GetOwner() ~= this:GetPlayer() and not this:checkOwnership(contact))) and (((this.TargetNPC) and (string.find(class, "^npc_.*")) and (class ~= "npc_heli_avoidsphere") and (this:FindInValue(class,this.NPCName))) or ((this.TargetPlayer) and (class == "player") and (!this.NoTargetOwner or this:GetPlayer() != contact) and this:FindInValue(contact:GetName(),this.PlayerName,this.CaseSen) and this:FindInValue(contact:SteamID(),this.SteamName) and this:FindColor(contact) and this:CheckTheBuddyList(contact)) or ((this.TargetBeacon) and (class == "gmod_wire_locator")) or ((this.TargetRPGs) and (class == "rpg_missile")) or ((this.TargetHoverballs) and (class == "gmod_hoverball" or class == "gmod_wire_hoverball")) or ((this.TargetThrusters)	and (class == "gmod_thruster" or class == "gmod_wire_thruster" or class == "gmod_wire_vectorthruster")) or ((this.TargetProps) and (class == "prop_physics") and (this:FindInValue(contact:GetModel(),this.PropModel))) or ((this.TargetVehicles) and (string.find(class, "prop_vehicle"))) or (this.EntFil ~= "" and this:FindInValue(class,this.EntFil))) then
+				if (not this.NoTargetOwnersStuff or (class == "player") or (contact:GetOwner() ~= this:GetPlayer() and not this:checkOwnership(contact))) and (((this.TargetNPC) and (string.find(class, "^npc_.*")) and (class ~= "npc_heli_avoidsphere") and (this:FindInValue(class,this.NPCName))) or ((this.TargetPlayer) and (class == "player") and (!this.NoTargetOwner or this:GetPlayer() ~= contact) and this:FindInValue(contact:GetName(),this.PlayerName,this.CaseSen) and this:FindInValue(contact:SteamID(),this.SteamName) and this:FindColor(contact) and this:CheckTheBuddyList(contact)) or ((this.TargetBeacon) and (class == "gmod_wire_locator")) or ((this.TargetRPGs) and (class == "rpg_missile")) or ((this.TargetHoverballs) and (class == "gmod_hoverball" or class == "gmod_wire_hoverball")) or ((this.TargetThrusters)	and (class == "gmod_thruster" or class == "gmod_wire_thruster" or class == "gmod_wire_vectorthruster")) or ((this.TargetProps) and (class == "prop_physics") and (this:FindInValue(contact:GetModel(),this.PropModel))) or ((this.TargetVehicles) and (string.find(class, "prop_vehicle"))) or (this.EntFil ~= "" and this:FindInValue(class,this.EntFil))) then
 					-- This is the only modification performed in the Think() function from the target finder
 					-- Yes, I suck, and can't find any easier way, duh
 					if ((link.filtertype==0 and (not(contact.__RFID_HASRFID)

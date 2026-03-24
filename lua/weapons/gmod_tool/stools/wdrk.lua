@@ -63,14 +63,14 @@ cleanup.Register("wdrk")
 
 function TOOL:LeftClick(trace)
 	if CLIENT then return true end
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 
 	local ply = self:GetOwner()
 	local model = self:GetClientInfo("model")
 	local tx = self:GetClientNumber("tx") ~= 0
 	local freeze = self:GetClientNumber("freeze") ~= 0
 
-	if trace.Entity:IsValid() && string.find(trace.Entity:GetClass(), "^ra_") && trace.Entity.pl == ply then return true end
+	if trace.Entity:IsValid() and string.find(trace.Entity:GetClass(), "^ra_") and trace.Entity.pl == ply then return true end
 
 	if not self:GetSWEP():CheckLimit("wdrk") then return false end
 
@@ -120,7 +120,7 @@ end
 
 function TOOL:Think()
 	local m = self:GetClientInfo("model")
-	if (not self.GhostEntity || not self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != m) then
+	if (not self.GhostEntity or not self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= m) then
 		self:MakeGhostEntity(m, Vector(0,0,0), Angle(0,0,0))
 	end
 

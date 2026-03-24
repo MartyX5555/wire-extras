@@ -36,7 +36,7 @@ end
 function ENT:ClientCheckRegister()
 	local ply = LocalPlayer()
 	local plyuid = ply:UniqueID()
-	return ply != self:GetPlayer() && !self:GetNWBool(plyuid)
+	return ply ~= self:GetPlayer() and !self:GetNWBool(plyuid)
 end
 
 // Used by STool for unregister control panel
@@ -46,7 +46,7 @@ function AdvHUDIndicator_GetCurrentRegistered()
 	local registered = {}
 	for eindex,_ in pairs(advhudindicators) do
 		local ent = ents.GetByIndex(eindex)
-		if (ent && ent:IsValid()) and (ent:CheckClientRegister()) then
+		if (ent and ent:IsValid()) and (ent:CheckClientRegister()) then
 			local entry = {}
 			entry.EIndex = eindex
 			entry.Description = advhudindicators[eindex].Description
@@ -58,7 +58,7 @@ function AdvHUDIndicator_GetCurrentRegistered()
 end
 
 local function isInsideZone( x, y, minX, minY, maxX, maxY )
-	return ( x > minX && x < maxX ) and ( y > minY && y < maxY )
+	return ( x > minX and x < maxX ) and ( y > minY and y < maxY )
 end
 
 local function DrawAdvHUDIndicators()
@@ -75,7 +75,7 @@ local function DrawAdvHUDIndicators()
 		if (advhudindicators[index]) then // Is this necessary?
 			local ent = ents.GetByIndex(index)
 
-			if (ent && ent:IsValid() ) then
+			if (ent and ent:IsValid() ) then
 				local indinfo = advhudindicators[index]
 
 				//-- If we're hidden just skip this lot --//
@@ -109,14 +109,14 @@ local function DrawAdvHUDIndicators()
 						if( positionMethod == 1 ) then
 							xPos = (screenWidth/100)*xPos
 							yPos = (screenHeight/100)*yPos
-							if( xEnd && yEnd ) then
+							if( xEnd and yEnd ) then
 								xEnd = (screenWidth/100)*xEnd
 								yEnd = (screenHeight/100)*yEnd
 							end
 						elseif( positionMethod == 2 ) then
 							xPos = screenWidth*((xPos/2)+0.5)
 							yPos = screenHeight*((yPos/2)+0.5)
-							if( xEnd && yEnd ) then
+							if( xEnd and yEnd ) then
 								xEnd = screenWidth*((xEnd/2)+0.5)
 								yEnd = screenHeight*((yEnd/2)+0.5)
 							end
@@ -126,7 +126,7 @@ local function DrawAdvHUDIndicators()
 
 					local txt = indinfo.FullText or ""
 
-					if( indinfo.alpha != nil ) then
+					if( indinfo.alpha ~= nil ) then
 						alphaVal = indinfo.alpha
 					end
 
@@ -213,7 +213,7 @@ local function DrawAdvHUDIndicators()
 						surface.SetDrawColor( 255, 255, 255,160)
 						surface.DrawOutlinedRect(xPos, yPos, pbarwidth, pbarheight)
 
-						if( txt != "" ) then
+						if( txt ~= "" ) then
 							draw.SimpleText(txt, "Default", xPos+10, yPos+8, Color(255, 255, 255, 255), 0)
 						end
 
@@ -239,7 +239,7 @@ local function DrawAdvHUDIndicators()
 						surface.SetDrawColor( 255, 255, 255,160)
 						surface.DrawOutlinedRect(xPos, yPos, pbarwidth, pbarheight)
 
-						if( txt != "" ) then
+						if( txt ~= "" ) then
 							draw.SimpleText(txt, "Default", xPos+10, yPos+7, Color(255, 255, 255, 255), 0)
 						end
 
@@ -271,7 +271,7 @@ local function DrawAdvHUDIndicators()
 						surface.SetDrawColor( 255, 255, 255,160)
 						surface.DrawOutlinedRect(xPos, yPos, pbarheight, pbarwidth)
 
-						if( txt != "" ) then
+						if( txt ~= "" ) then
 							draw.SimpleText(txt, "Default", xPos+pbarheight+5, yPos, Color(255, 255, 255, 255), 0)
 						end
 
@@ -297,7 +297,7 @@ local function DrawAdvHUDIndicators()
 						surface.SetDrawColor( 255, 255, 255,160)
 						surface.DrawOutlinedRect(xPos, yPos, pbarheight, pbarwidth)
 
-						if( txt != "" ) then
+						if( txt ~= "" ) then
 							draw.SimpleText(txt, "Default", xPos+pbarheight+5, yPos, Color(255, 255, 255, 255), 0)
 						end
 
@@ -323,7 +323,7 @@ local function DrawAdvHUDIndicators()
 						surface.DrawLine(xPos+size, yPos+size, xPos+size, yPos+size-15)
 						surface.DrawLine(xPos+size, yPos+size, xPos+size-15, yPos+size)
 
-						if( txt != "" ) then
+						if( txt ~= "" ) then
 							surface.DrawLine( xPos+size, yPos+size, xPos+size+20, yPos+size+20 )
 							draw.WordBox(8, xPos+size+20, yPos+size+12, txt, "Default", Color(50,255,50, 160), Color(0,0,0, 255) )
 						end
@@ -357,7 +357,7 @@ local function DrawAdvHUDIndicators()
 							surface.DrawLine( 0, screenHeight, xPos-size, yPos+size )
 
 
-							if( txt != "" ) then
+							if( txt ~= "" ) then
 								draw.WordBox(8, xPos+size+20, yPos+size+20, txt, "Default", Color(50,255,50, 160), Color(0,0,0, 255) )
 							end
 
@@ -433,7 +433,7 @@ local function DrawAdvHUDIndicators()
 						surface.DrawLine( xPos-20, yPos-10, xPos-20, yPos+10 )
 						surface.DrawLine( xPos+20, yPos-10, xPos+20, yPos+10 )
 
-						if( txt != "" ) then
+						if( txt ~= "" ) then
 							draw.WordBox(8, xPos+20, yPos+20, txt, "Default", Color(50,255,50, 160), Color(0,0,0, 255) )
 						end
 
@@ -486,7 +486,7 @@ local function DrawAdvHUDIndicators()
 						surface.DrawLine( point2x, point2y, point3x, point3y )
 						surface.DrawLine( point3x, point3y, point1x, point1y )
 
-						if( txt != "" ) then
+						if( txt ~= "" ) then
 							draw.WordBox(8, xPos+20, yPos+20, txt, "Default", Color(50,255,50, 160), Color(0,0,0, 255) )
 						end
 
@@ -500,7 +500,7 @@ local function DrawAdvHUDIndicators()
 					elseif (indinfo.Style == 1000) then
 
 						local size = 45
-						if( indinfo.exio_size != nil ) then size = indinfo.exio_size end
+						if( indinfo.exio_size ~= nil ) then size = indinfo.exio_size end
 						if( size < 0 ) then size = 0 end
 
 						surface.SetDrawColor(AColor.r, AColor.g, AColor.b, 90)
@@ -520,7 +520,7 @@ local function DrawAdvHUDIndicators()
 						surface.DrawLine(xPos+size, yPos+size, xPos+size, yPos+size-15)
 						surface.DrawLine(xPos+size, yPos+size, xPos+size-15, yPos+size)
 
-						if( txt != "" ) then
+						if( txt ~= "" ) then
 							surface.DrawLine( xPos+size, yPos+size, xPos+size+20, yPos+size+20 )
 							draw.WordBox(8, xPos+size+20, yPos+size+12, txt, "Default", Color(50,255,50, 160), Color(0,0,0, 255) )
 						end
@@ -536,14 +536,14 @@ local function DrawAdvHUDIndicators()
 						surface.SetDrawColor(BColor.r, BColor.g, BColor.b, 160)
 
 						//-- Left Brace --//
-						if( indinfo.exio_lbrace != nil ) and ( indinfo.exio_lbrace > 0 ) then
+						if( indinfo.exio_lbrace ~= nil ) and ( indinfo.exio_lbrace > 0 ) then
 							surface.DrawLine( xPos-30, yPos-10, xPos-30, yPos+10 )
 							surface.DrawLine( xPos-30, yPos-10, xPos-25, yPos-10 )
 							surface.DrawLine( xPos-30, yPos+10, xPos-25, yPos+10 )
 						end
 
 						//-- Right Brace --//
-						if( indinfo.exio_rbrace != nil ) and ( indinfo.exio_rbrace > 0 ) then
+						if( indinfo.exio_rbrace ~= nil ) and ( indinfo.exio_rbrace > 0 ) then
 							surface.DrawLine( xPos+30, yPos-10, xPos+30, yPos+10 )
 							surface.DrawLine( xPos+30, yPos-10, xPos+25, yPos-10 )
 							surface.DrawLine( xPos+30, yPos+10, xPos+25, yPos+10 )
@@ -590,7 +590,7 @@ local function DrawAdvHUDIndicators()
 					end
 
 					//-- manual draw mode, possibly -intensely- laggy...--//
-					if( xEnd && yEnd ) then
+					if( xEnd and yEnd ) then
 						//--XY->XY Line mode --//
 						if( indinfo.Style == 200 ) then
 							surface.SetDrawColor(AColor.r, AColor.g, AColor.b, 160)
@@ -700,7 +700,7 @@ local function AdvHUDIndicatorRegister()
 	advhudindicators[eindex].Description = net.ReadString()
 	advhudindicators[eindex].ShowValue = net.ReadInt(16)
 	local tempstyle = net.ReadInt(16)
-	if (!advhudindicators[eindex].Style || advhudindicators[eindex].Style != tempstyle) then
+	if (!advhudindicators[eindex].Style or advhudindicators[eindex].Style ~= tempstyle) then
 		advhudindicators[eindex].Ready = false // Make sure that everything's ready first before drawing
 	end
 	advhudindicators[eindex].Style = tempstyle

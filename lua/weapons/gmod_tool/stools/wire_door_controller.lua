@@ -150,7 +150,7 @@ function TOOL:UpdateGhostWireDoorController(ent, ply)
 end
 
 function TOOL:Think()
-	if not IsValid(self.GhostEntity) or self.GhostEntity:GetModel() != self:GetClientInfo("Model") then
+	if not IsValid(self.GhostEntity) or self.GhostEntity:GetModel() ~= self:GetClientInfo("Model") then
 		self:MakeGhostEntity(self:GetClientInfo("Model"), Vector(0,0,0), Angle(0,0,0))
 	end
 	

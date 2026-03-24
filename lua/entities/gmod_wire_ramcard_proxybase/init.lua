@@ -58,12 +58,12 @@ end
 function ENT:Think() --//think function of the card. any actions can be done in here. main one: check if the socket is still there
 	self.BaseClass.BaseClass.Think(self)
 	sock = self:GetSocket()
-	if (sock && !sock:IsValid()) then
+	if (sock and !sock:IsValid()) then
 		self:ResetSocket()
 	end
 	if (!self.OwnerObj) then Msg("No OwnerObj in Entity\n") end
 	
-	if (self.OwnerObj && self.OwnerObj:IsValid()) then
+	if (self.OwnerObj and self.OwnerObj:IsValid()) then
 		self.CurrentDist = self:GetPos():Distance(self.OwnerObj:GetPos())
 		self:SetOverlayText("Wire RAM-Card\nProximity ("..self.SizePrint..")\nMax Owner Distance: "..self.MaxDist.."\nDistance Now: "..self.CurrentDist)
 	elseif (self.OwnerID) then
@@ -76,7 +76,7 @@ function ENT:Think() --//think function of the card. any actions can be done in 
 		self.OwnerObj = nil
 		self.CurrentDist = -1
 	end
-	if (!self.OwnerObj || !self.OwnerObj:IsValid()) then
+	if (!self.OwnerObj or !self.OwnerObj:IsValid()) then
 		self:SetOverlayText("Wire RAM-Card\nProximity ("..self.SizePrint..")\nMax Owner Distance: "..self.MaxDist.."\nUser Disconnected!")
 	end
 	
@@ -132,8 +132,8 @@ end
 
 function ENT:WriteCell( Address, value ) --//Writes a Cell on the Card
 	if (self:CanWrite()) then
-		if (Address >= 0 && Address <= (self.Size - 1)) then
-			if (value != 0) then
+		if (Address >= 0 and Address <= (self.Size - 1)) then
+			if (value ~= 0) then
 				self.Memory[Address] = value
 			else
 				self.Memory[Address] = nil
@@ -146,7 +146,7 @@ end
 
 function ENT:ReadCell( Address ) --//Reads a Cell from the Card
 	if (self:CanRead()) then
-		if (Address >= 0 && Address <= (self.Size - 1)) then
+		if (Address >= 0 and Address <= (self.Size - 1)) then
 			if (self.Memory[Address]) then
 				return self.Memory[Address]
 			else

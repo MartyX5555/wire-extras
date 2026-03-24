@@ -29,7 +29,7 @@ TOOL.Model = "models/jaanus/wiretool/wiretool_range.mdl"
 cleanup.Register( "wire_hsholoemitters" )
 
 function TOOL:LeftClick( trace )
-	if ( trace.Entity && trace.Entity:IsPlayer() ) then
+	if ( trace.Entity and trace.Entity:IsPlayer() ) then
 		return false
 	end
 	
@@ -43,7 +43,7 @@ function TOOL:LeftClick( trace )
 	local b = self:GetClientNumber("b")
 	local a = self:GetClientNumber("a")
 	
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_hsholoemitter" && trace.Entity.pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_hsholoemitter" and trace.Entity.pl == ply ) then
 		trace.Entity:Setup()
 		trace.Entity:SetColor( Color(r, g, b, a) );
 		return true
@@ -126,7 +126,7 @@ function TOOL:UpdateGhostWireHSHoloemitter( ent, player )
 	local trace 	= util.TraceLine( tr )
 	if (!trace.Hit) then return end
 
-	if (trace.Entity && trace.Entity:GetClass() == "gmod_wire_hsholoemitter" || trace.Entity:IsPlayer()) then
+	if (trace.Entity and trace.Entity:GetClass() == "gmod_wire_hsholoemitter" or trace.Entity:IsPlayer()) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -143,7 +143,7 @@ end
 
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self.Model ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self.Model ) then
 		self:MakeGhostEntity( self.Model, Vector(0,0,0), Angle(0,0,0) )
 	end
 

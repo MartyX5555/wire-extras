@@ -21,7 +21,7 @@ if ( SERVER ) then
 	CreateConVar( "sbox_maxwire_dupeports", 10 )
 
 	function MakeWireDupePort( ply, Ang, Pos)
-		if ( ply:IsAdmin() || ply:IsSuperAdmin() ) then
+		if ( ply:IsAdmin() or ply:IsSuperAdmin() ) then
 
 			if ( !ply:CheckLimit( "wire_dupeports" ) ) then return false end
 
@@ -61,14 +61,14 @@ end
 cleanup.Register( "wire_dupeports" )
 
 function TOOL:LeftClick( trace )
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if trace.Entity and trace.Entity:IsPlayer() then return false end
 	if ( CLIENT ) then return true end
 
 	local ply = self:GetOwner()
 
 	-- If we shot a wire_dupeport do nothing
-	if ( trace.Entity:IsValid() &&
-			 trace.Entity.pl == ply &&
+	if ( trace.Entity:IsValid() and
+			 trace.Entity.pl == ply and
 			 trace.Entity:GetClass() == "gmod_wire_dupeport" ) then
 			 trace.Entity:Setup()
 		return true
@@ -106,9 +106,9 @@ function TOOL:UpdateGhostWireDupePort( ent, player )
 	local trace = player:GetEyeTrace()
 	if ( !trace.Hit ) then return end
 
-	if ( trace.Entity &&
-		   trace.Entity:IsValid() &&
-		 ( trace.Entity:GetClass() == "gmod_wire_dupeport" ||
+	if ( trace.Entity and
+		   trace.Entity:IsValid() and
+		 ( trace.Entity:GetClass() == "gmod_wire_dupeport" or
 		 	 trace.Entity:IsPlayer() ) ) then
 		ent:SetNoDraw( true )
 		return
@@ -126,8 +126,8 @@ end
 
 
 function TOOL:Think()
-	if ( !self.GhostEntity ||
-			 !self.GhostEntity:IsValid() ||
+	if ( !self.GhostEntity or
+			 !self.GhostEntity:IsValid() or
 			  self.GhostEntity:GetModel() ~= gsModel ) then
 		self:MakeGhostEntity( gsModel, Vector(0,0,0), Angle(0,0,0) )
 	end

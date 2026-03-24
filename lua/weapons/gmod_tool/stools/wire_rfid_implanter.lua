@@ -36,9 +36,9 @@ function TOOL:LeftClick( trace )
 	local ply = self:GetOwner()
 
 	local Range = self:GetClientNumber("Range")
-	local NoColorChg = (self:GetClientNumber("NoColorChg")!=0)
+	local NoColorChg = (self:GetClientNumber("NoColorChg")~=0)
 	
-	if ( trace.Entity:IsValid() && trace.Entity:GetClass() == "gmod_wire_rfid_implanter" && trace.Entity:GetTable().pl == ply ) then
+	if ( trace.Entity:IsValid() and trace.Entity:GetClass() == "gmod_wire_rfid_implanter" and trace.Entity:GetTable().pl == ply ) then
 		trace.Entity:Setup( Range, NoColorChg )
 		return true
 	end
@@ -105,12 +105,12 @@ if (SERVER) then
 end
 
 function TOOL:UpdateGhostWireImplanter( ent, player )
-	if ( !ent || !ent:IsValid() ) then return end
+	if ( !ent or !ent:IsValid() ) then return end
 
 	local tr 	= util.GetPlayerTrace( player, player:GetAimVector() )
 	local trace 	= util.TraceLine( tr )
 
-	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_wire_rfid_implanter" ) then
+	if (!trace.Hit or trace.Entity:IsPlayer() or trace.Entity:GetClass() == "gmod_wire_rfid_implanter" ) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -126,7 +126,7 @@ function TOOL:UpdateGhostWireImplanter( ent, player )
 end
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self.Model ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self.Model ) then
 		self:MakeGhostEntity( self.Model, Vector(0,0,0), Angle(0,0,0) )
 	end
 

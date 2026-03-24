@@ -34,16 +34,16 @@ end
 
 function ENT:TriggerInput(iname, value)
 
-	if ( value != nil && iname == "Key" ) then
+	if ( value ~= nil and iname == "Key" ) then
 		self.Key=value;
 		iname="Reset";
 		value=1;
 	end
 	
 	if ( iname == "Reset" ) then
-		if ( value != nil && math.floor( value ) != 0 ) then
+		if ( value ~= nil and math.floor( value ) ~= 0 ) then
 
-			if self.Connected != 0 then				
+			if self.Connected ~= 0 then				
 				self.Connected:Dissconnect( self );
 			end
 			
@@ -56,19 +56,19 @@ function ENT:TriggerInput(iname, value)
 	end
 	
 	if ( iname == "Pop" ) then
-		if ( value != nil && math.floor( value ) != 0 ) then
+		if ( value ~= nil and math.floor( value ) ~= 0 ) then
 			table.remove( self.Buff , 1 )
 		end
 	end
 	
 	
-	if ( value != nil && iname == "Message" ) then
+	if ( value ~= nil and iname == "Message" ) then
 		self.SendMsg=value;
 	end
 
 	if ( iname == "Send" ) then
-		if ( value != nil && value != nil && math.floor( value ) != 0 ) then
-			if ( self.Connected != 0 ) then
+		if ( value ~= nil and value ~= nil and math.floor( value ) ~= 0 ) then
+			if ( self.Connected ~= 0 ) then
 				if ( self.Connected:IsValid() ) then 
 					self.Connected:Push( self , self.SendMsg )
 				else
@@ -84,9 +84,9 @@ end
 
 function ENT:UpdateRMessage()
 	
-	if ( self.Connected != 0 ) then
+	if ( self.Connected ~= 0 ) then
 	
-		if self.Key != 0 then
+		if self.Key ~= 0 then
 			self:SetOverlayText("Wireless Receiver (" .. self.Key .. ") - Connected")
 		else
 			self:SetOverlayText("Wireless Receiver - Connected")
@@ -96,7 +96,7 @@ function ENT:UpdateRMessage()
 	
 	else
 	
-		if self.Key != 0 then
+		if self.Key ~= 0 then
 			self:SetOverlayText("Wireless Receiver (" .. self.Key .. ") - Scanning")
 		else
 			self:SetOverlayText("Wireless Receiver - Scanning")
@@ -121,7 +121,7 @@ end
 
 function ENT:Think()
 	
-	if self.Connected != 0 then
+	if self.Connected ~= 0 then
 		if ( not self.Connected:IsValid() ) then self.Connected=0 end
 	else
 		
@@ -135,7 +135,7 @@ function ENT:Think()
 					if Server.Key == self.Key then
 						local TheirPos=Server:GetPos();
 						local ldist=TheirPos:Distance( myPos )
-						if ( Closest == 0 || ldist < CDistance ) then
+						if ( Closest == 0 or ldist < CDistance ) then
 							CDistance=ldist
 							Closest=Server
 						end
@@ -144,7 +144,7 @@ function ENT:Think()
 			end
 		end
 		
-		if ( Closest != 0 ) then
+		if ( Closest ~= 0 ) then
 			self.Connected=Closest;
 			Closest:Connect( self );
 			self:UpdateRMessage();
@@ -158,7 +158,7 @@ end
 function ENT:OnRemove()
 
 	
-	if self.Connected != 0 then					
+	if self.Connected ~= 0 then					
 		self.Connected:Dissconnect( self );
 	end
 	

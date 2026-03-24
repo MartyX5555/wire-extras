@@ -49,7 +49,7 @@ function TOOL:LeftClick( trace )
 	Ang.pitch = Ang.pitch + 90
 		
 	ent = MakeWireDynMemory( ply, trace.HitPos, Ang, Size,Model )
-	if (!ent || !ent:IsValid()) then return false end	
+	if (!ent or !ent:IsValid()) then return false end	
 	
 	local min = ent:OBBMins()
 	ent:SetPos( trace.HitPos - trace.HitNormal * min.z )
@@ -73,7 +73,7 @@ function TOOL:RightClick( trace )
 end
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || !self.GhostEntity:GetModel() || self.GhostEntity:GetModel() != self:GetClientInfo( "model" ) ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or !self.GhostEntity:GetModel() or self.GhostEntity:GetModel() ~= self:GetClientInfo( "model" ) ) then
 		self:MakeGhostEntity( self:GetClientInfo( "model" ), Vector(0,0,0), Angle(0,0,0) )
 	end
 	self:UpdateGhost( self.GhostEntity, self:GetOwner() )
@@ -87,7 +87,7 @@ function TOOL:UpdateGhost( ent, player )
 	local trace = player:GetEyeTrace()
 	if (!trace.Hit) then return end
 
-	if ( trace.Entity && trace.Entity:GetClass() == "gmod_wire_dynamicmemory" || trace.Entity:IsPlayer() ) then
+	if ( trace.Entity and trace.Entity:GetClass() == "gmod_wire_dynamicmemory" or trace.Entity:IsPlayer() ) then
 		ent:SetNoDraw( true )
 		return
 	end

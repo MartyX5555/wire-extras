@@ -118,7 +118,7 @@ function ENT:Think()
 	// Acquisition code
 	if self.doAcq == 1 then
 	
-		if ( self.acqCase == 1 && ( ( self.curAngle + .01 ) < self.initAngle  || ( self.curAngle - .01 ) > self.chosenAngle ) ) then
+		if ( self.acqCase == 1 and ( ( self.curAngle + .01 ) < self.initAngle  or ( self.curAngle - .01 ) > self.chosenAngle ) ) then
 			self:Forward(0)
 			if self.WeldMode == 1 then
 				self.Constraint = constraint.Weld( self, self.ServoBase, 0, self.ServoBone, 0 )
@@ -130,7 +130,7 @@ function ENT:Think()
 			end
 			self.doAcq = 0
 			self.acqCase = 0			
-		elseif ( self.acqCase == 2 && ( self.curAngle + .01 ) < self.initAngle  && ( self.curAngle - .01 ) > self.chosenAngle ) then
+		elseif ( self.acqCase == 2 and ( self.curAngle + .01 ) < self.initAngle  and ( self.curAngle - .01 ) > self.chosenAngle ) then
 			self:Forward(0)
 			if self.WeldMode == 1 then
 				self.Constraint = constraint.Weld( self, self.ServoBase, 0, self.ServoBone, 0 )
@@ -142,7 +142,7 @@ function ENT:Think()
 			end			
 			self.doAcq = 0
 			self.acqCase = 0
-		elseif ( self.acqCase == 3 && ( self.curAngle - .01 ) > self.initAngle  && ( self.curAngle + .01 ) < self.chosenAngle ) then
+		elseif ( self.acqCase == 3 and ( self.curAngle - .01 ) > self.initAngle  and ( self.curAngle + .01 ) < self.chosenAngle ) then
 			self:Forward(0)
 			if self.WeldMode == 1 then
 				self.Constraint = constraint.Weld( self, self.ServoBase, 0, self.ServoBone, 0 )
@@ -154,7 +154,7 @@ function ENT:Think()
 			end			
 			self.doAcq = 0
 			self.acqCase = 0	
-		elseif ( self.acqCase == 4 && ( ( self.curAngle - .01 ) > self.initAngle || ( self.curAngle + .01 ) < self.chosenAngle ) ) then
+		elseif ( self.acqCase == 4 and ( ( self.curAngle - .01 ) > self.initAngle or ( self.curAngle + .01 ) < self.chosenAngle ) ) then
 			self:Forward(0)
 			if self.WeldMode == 1 then
 				self.Constraint = constraint.Weld( self, self.ServoBase, 0, self.ServoBone, 0 )
@@ -356,7 +356,7 @@ function ENT:SetTorque( torque )
 	self.TorqueScale = torque / self.BaseTorque
 	
 	local Motor = self:GetMotor()
-	if (!Motor || !Motor:IsValid()) then return end
+	if (!Motor or !Motor:IsValid()) then return end
 	Motor:Fire( "Scale", Motor:GetTable().direction * Motor:GetTable().forcescale * self.TorqueScale , 0 )
 	
 	self:UpdateOverlayText()

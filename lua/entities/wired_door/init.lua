@@ -49,12 +49,12 @@ function ENT:OnRemove()
 end
 
 function ENT:TriggerInput(iname, value)
-	if (iname == "Open") and (value != 0) then
+	if (iname == "Open") and (value ~= 0) then
 		self:openself()
-	elseif(iname == "Close") and (value != 0) then
+	elseif(iname == "Close") and (value ~= 0) then
 		self:closeself()
 	elseif(iname == "Lock") then
-		if(value != 0) then
+		if(value ~= 0) then
 			self.xent:Fire("lock","",0)
 		else
 			self.xent:Fire("unlock","",0)

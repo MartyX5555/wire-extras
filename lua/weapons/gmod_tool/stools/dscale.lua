@@ -90,12 +90,12 @@ if (SERVER) then
 end
 
 function TOOL:UpdateGhostW( ent, player )
-	if ( !ent || !ent:IsValid() ) then return end
+	if ( !ent or !ent:IsValid() ) then return end
 
 	local tr 	= util.GetPlayerTrace( player, player:GetAimVector() )
 	local trace 	= util.TraceLine( tr )
 
-	if (!trace.Hit || trace.Entity:IsPlayer() || trace.Entity:GetClass() == "damage_scaler" ) then
+	if (!trace.Hit or trace.Entity:IsPlayer() or trace.Entity:GetClass() == "damage_scaler" ) then
 		ent:SetNoDraw( true )
 		return
 	end
@@ -111,7 +111,7 @@ function TOOL:UpdateGhostW( ent, player )
 end
 
 function TOOL:Think()
-	if (!self.GhostEntity || !self.GhostEntity:IsValid() || self.GhostEntity:GetModel() != self.Model ) then
+	if (!self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() ~= self.Model ) then
 		self:MakeGhostEntity( self:GetClientInfo("Model"), Vector(0,0,0), Angle(0,0,0) )
 	end
 
