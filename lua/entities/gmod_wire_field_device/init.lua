@@ -616,7 +616,6 @@ local function FindInSphere(source, origin, radius)
 		if entity == source then continue end
 		if blacklist[entity:GetClass()] then continue end
 		if string.StartsWith(entity:GetClass(), "env_") then continue end
-		print(entity)
 		table.insert(results, entity)
 	end
 	return results
@@ -641,9 +640,9 @@ function ENT:GetEverythingInSphere( center , range )
 		end
 	else
 		for _, obj in ipairs( FindInSphere(self, center, range) ) do
-			if obj:IsPlayer() and not self.workonplayers then print("no players") continue end
-			if obj:GetMoveType() == MOVETYPE_NOCLIP then print("no noclip type") continue end
-			if not obj:IsPlayer() and not gamemode.Call("PhysgunPickup", self:GetCreator(), obj) then print("no prop protection granted") continue end
+			if obj:IsPlayer() and not self.workonplayers then  continue end
+			if obj:GetMoveType() == MOVETYPE_NOCLIP then  continue end
+			if not obj:IsPlayer() and not gamemode.Call("PhysgunPickup", self:GetCreator(), obj) then  continue end
 
 			Objs[#Objs + 1] = obj
 		end
@@ -1028,7 +1027,6 @@ function ENT:Think()
 	end
 
 	if self.active ~= 0 then
-		print("can operate think")
 
 		if self.FieldType == "Gravity" then
 			self:Gravity_Logic()
